@@ -1,4 +1,4 @@
-from pytronix_lib.scopes import Trigger, DebugScope, ScopeStateError, LoggedVISA
+from pytronix.scopes import Trigger, DebugScope, ScopeStateError, LoggedVISA
 import pytest
 from time import sleep
 

@@ -1,4 +1,4 @@
-from pytronix_lib.scopes import LoggedVISA, Horizontal, ScopeStateError
+from pytronix.scopes import LoggedVISA, Horizontal, ScopeStateError
 import pytest
 
 @pytest.fixture()

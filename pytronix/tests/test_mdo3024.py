@@ -1,4 +1,4 @@
-from pytronix_lib.scopes import MDO3024 
+from pytronix.scopes import MDO3024 
 import pytest
 from time import sleep
 
