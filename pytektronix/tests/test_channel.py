@@ -1,4 +1,4 @@
-from pytronix.scopes import Channel, DebugScope, ScopeStateError, LoggedVISA
+from scopes import Channel, DebugScope, ScopeStateError, LoggedVISA
 import pytest
 
 SCOPE = None
@@ -38,7 +38,7 @@ def test_position(TestScope) -> None:
 
 def test_offset(TestScope) -> None:
     scope = TestScope
-    chan = Channel(3, scope)
+    chan = Channel(1, scope)
     
     assert(chan.offset == 0)
     
@@ -47,7 +47,7 @@ def test_offset(TestScope) -> None:
 
 def test_scale(TestScope) -> None:
     scope = TestScope
-    chan = Channel(3, scope)
+    chan = Channel(1, scope)
     assert(chan.scale == 1)
 
     chan.scale = 1.0e-2

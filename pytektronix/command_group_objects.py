@@ -1,196 +1,8 @@
-import pyvisa
-import vxi11
-
-import os
-from dataclasses import dataclass
-from pathlib import Path
-from typing import Union, Tuple
-from abc import ABCMeta, abstractmethod
-from string import digits
 from aenum import MultiValueEnum
+from pytektronix.pytektronix_base_classes import CommandGroupObject, Scope
+from pytektronix.pytektronix_base_classes import ScopeStateError, LoggedVXI11
 
-class Scope(metaclass=ABCMeta):
-    """An abstract metaclass for any type of scope communication (VISA, VXI11 and DEBUG)""" 
-    @abstractmethod
-    def ask(self) -> str:
-        """A method to query the scope, which expects a return string"""
-        pass
-
-    @abstractmethod
-    def write(self) -> None:
-        """A method to send a command to the scope without waiting for a response"""
-        pass
-
-class CommandGroupObject:
-    """A command group meta object which all command group classes can inherit."""
-    def _set_property_accepted_vals(self, prop: str, models_accepted_values: dict, value: any):
-        if self.instr.model not in self.supported_models:
-            raise NotImplementedError(f"Only models {','.join(self.supported_models)} currently supported")
-
-        accepted_values = models_accepted_values[self.instr.model]
-        
-        if type(value) in [float, int]: 
-            if "any_number" in accepted_values:
-                pass
-            elif any(isinstance(x, tuple) for x in accepted_values):
-                accepted_range = [x for x in accepted_values if isinstance(x, tuple)][0]
-                if not accepted_range and not isinstance(accepted_range, tuple):
-                    raise ValueError("Range {accepted_range} is not accepted type")
-                if value < min(accepted_range) or value > max(accepted_range):
-                    raise ValueError(f"'{value}' is not in range {accepted_range}.")
-
-        elif type(value) in [str]:
-            if value.lower() not in accepted_values:
-                raise ValueError(f"{value} is not an accepted trigger {prop}.\n", 
-                                 f"Must be one of: ({','.join(accepted_values)})") 
-
-        self.instr.write(f"{prop} {value}")
-
-#TODO: FIX ME
-class DebugScope(Scope):
-    def __init__(self, loud: bool=False):
-        self.make = "DEBUG_MAKE"
-        self.model = "DEBUG"
-        self.log = ""
-
-        self.t_mode = "auto"
-        self.t_type = "edge"
-        self.t_source = "ch1"
-        self.t_state = "ready"
-
-        self.responses = {"trigger:state": self.t_state,
-                          "trigger:a:mode": self.t_mode,
-                          "trigger:a:type": self.t_type,
-                          "trigger:a:edge:source": self.t_source}
-
-    def ask(self, q: str):
-    #return q+'?' if '?' not in q else q
-        q += "?" if "?" not in q else ""
-        self.log += q + "\n"
-        return self.responses[q[:-1]] 
-
-    def write(self, q:str):
-        self.log += q + "\n"
-        q = q.split(" ")
-        if len(q) > 1:
-            self.responses[q[0]] = q[1]
-        return q
-
-
-class LoggedVISA(Scope):
-    def __init__(self, resource_id: str=None, loud: bool=False, log: bool=True):
-        if not resource_id:
-            self.visa = self._get_resource()
-        else:
-            try:
-                self.visa = pyvisa.ResourceManager().open_resource(resource_id)
-            except OSError:
-                print("Resource Identifier '{resource_id}' is invalid...")
-                self.visa = self._get_resource()
-
-        self.loud = loud
-        self.log_loud = log
-        self.log_str: str = ""
-        # TODO: Correct This:
-        self.make, self.model = self.ask("*IDN?").split(",")[0:2]
-
-    def _get_make_and_model(self):
-        self.make, self.model = self.ask("*IDN?").split(",")[0:2]
-        return self.make, self.model
-
-    def _get_resource(self) -> pyvisa.Resource:
-        """Gets a scope from the visa manager via command line options"""
-        # Instantiate the Resource Manager and get the resources
-        rm = pyvisa.ResourceManager()
-        resources = rm.list_resources()
-
-        # If there is only one resource, just get that
-        if len(resources) <= 1:
-            return rm.open_resource(resources[0])
-    
-        # Let user choose one of the resources
-        print("Select a resource from the following list:")
-        for idx, resource in enumerate(resources):
-            print(f"{idx+1}: {resource}")
-        
-        res = input("\nType the number of the resource desired: ")
-        
-        # Fancy error checking - recursive (potential danger)
-        try:
-            return rm.open_resource(resources[int(res)])
-        except ValueError:
-            print(f"'{res}' is not a selectable resource.")
-            print("Restarting...")
-            return self._get_resource()
-    
-    def _check_instrument_errors(self, command: str = None, strict = False) -> Tuple[bool, str]:
-        return False, "No Error" 
-
-    def ask(self, q: str) -> str:
-        """Sends a query string to the oscilloscope"""
-        q = q + "?" if "?" not in q else q
-        result = self.visa.query(q)
-        err, err_str = self._check_instrument_errors(q)
-        self.log(q, err, err_str)
-
-        if self.loud:
-            print(result, end='')
-
-        return result
-    
-    def write(self, command: str) -> None: 
-        """Writes a command string to the oscilloscope"""
-        if self.loud:
-            print(f"Writing Command '{command}'...")
-        self.visa.write(command)
-        err, err_str = self._check_instrument_errors(command)
-        
-        self.log(command, err, err_str)
-
-    def read_raw(self):
-        if self.loud:
-            print("Reading Scope...")
-
-        return self.visa._read_raw()
-
-    def close(self):
-        """Closes the visa connection"""
-        self.visa.close()
-
-    def log(self, value: str, err: bool=False, err_str: str=None) -> None:
-        """Logs the commands sent to the scope, and notes if there was an error"""
-        value += "\n" if "\n" not in value else value 
-        if err:
-            value = value+f" [FAILED - '{err_str}']"
-        self.log_str += value
-
-
-class LoggedVXI11(vxi11.Instrument, Scope):
-    # TODO: Implement Loud VXI11
-    def __init__(self, IP: str, loud: bool=False):
-        super().__init__(IP)
-        self.log: str = ""
-        self.ip = IP if IP else os.environ["OSCILLOSCOPE"]
-
-    def write(self, query: str):
-        self.log += f"{query}\n"
-        super().write(query)
-
-    def ask(self, data: str):
-        self.write(data)
-        return super().read()
-    
-    def make_init(self, fpath: Path=None):
-        fpath = self.ip+"_init.txt" if not fpath else fpath
-        with open(fpath, "w+") as init_f:
-            init_f.write(self.log)
-
-    def close(self) -> None:
-        raise NotImplementedError
-
-class ScopeStateError(Exception):
-    def __init__(self, message: str="INVALID SCOPE STATE"):
-        super().__init__(message)
+from string import digits
 
 class TrigStrings(MultiValueEnum):
     READY = "ready", "rea"
@@ -309,7 +121,6 @@ class Horizontal(CommandGroupObject):
         self.instr = instr
         self.strict = strict
         self.supported_models = ["MDO3024", "DEBUG"]
-        
     
     @property
     def scale(self):
@@ -374,7 +185,8 @@ class Channel(CommandGroupObject):
 
     def compute_offset_range_for_mdo3024(self):
         probe_res = {10e6: 0, 
-                     50: 1}[float(self.probe_resistance)]
+                     50: 1,
+                     1e6: 0}[float(self.probe_resistance)]
 
         vdiv = self.scale
 
@@ -409,6 +221,15 @@ class Channel(CommandGroupObject):
     def probe_resistance(self) -> float:
         """Get channel PROBE RESISTANCE in OHMS"""
         return float(self.instr.ask(f"{self.cn}:probe:resistance"))
+
+    @property
+    def coupling(self):
+        """The coupling property."""
+        return self.instr.ask(f"{self.cn}:coupling")
+    @coupling.setter
+    def coupling(self, value):
+        accepted_values = {"MDO3024": ["ac", "dc", "dcreject"]}
+        self._set_property_accepted_vals(f"{self.cn}:coupling", accepted_values, value)
 
 class WaveformTransfer(CommandGroupObject):
     def __init__(self, instr: Scope, strict: bool=False, auto_init=True):
@@ -462,9 +283,9 @@ class WaveformTransfer(CommandGroupObject):
         self._set_property_accepted_vals("data:encdg", accepted_values, value)
 
     @property
-    def data_width(self):
+    def data_width(self) -> int:
         """The data_width property."""
-        return self.instr.ask("data:width")
+        return int(self.instr.ask("data:width"))
     @data_width.setter
     def data_width(self, value):
         accepted_values = {"MDO3024": None}
@@ -477,98 +298,43 @@ class WaveformTransfer(CommandGroupObject):
         else:
             accepted_values["MDO3024"] = ["1", "2"]
         self._set_property_accepted_vals("data:width", accepted_values, value)
-    
+
+    @property
+    def data_start(self) -> int:
+        """The data_start property."""
+        return int(self.instr.ask("data:start"))
+    @data_start.setter
+    def data_start(self, value):
+        accepted_values = {"MDO3024": [(0, self.num_points)]}
+        self._set_property_accepted_vals("data:start", accepted_values, value)
+
+    @property
+    def data_stop(self) -> int:
+        """The data_stop property."""
+        return int(self.instr.ask("data:stop"))
+    @data_stop.setter
+    def data_stop(self, value):
+        accepted_values = {"MDO3024": [(1, self.num_points)]}
+        self._set_property_accepted_vals("data:stop", accepted_values, value)
+
+    @property
+    def num_points(self) -> int:
+        """The num_points property."""
+        return int(self.instr.ask("WFMInpre:NR_Pt"))
+    @num_points.setter
+    def num_points(self, value):
+        accepted_values = {"MDO3024": [(1, 2e6)]}
+        raise NotImplementedError("setting num_points is not currently implemented")
+
+    #TODO: fix read_raw when scope is VXI11 - breaks because read_raw not happy
     def get_data(self):
         if not self.data_ready:
             raise ScopeStateError("Scope is not ready to capture data... (Waveform Uninitialized??)")
         self.instr.write("curve?")
-        return self.instr.read_raw()
 
-# TODO: FIXME
-class MDO3024:
-    def __init__(self, resource_id: str=None, vxi11: bool = False, strict: bool = True):
+        if type(self.instr) == LoggedVXI11: 
+            return self.instr.read()
 
-        self.instr = LoggedVISA(resource_id=resource_id) if not vxi11 else LoggedVXI11(resource_id=resource_id)
-        self.trigger = Trigger(self.instr)
-        self.horizontal = Horizontal(self.instr)
-        self.num_anlg_chans = 4
-        self.num_digi_chans = 16
-        self.ch_dict = {}
+        data = self.instr.read_raw() 
+        return data
 
-        for i in range(1, self.num_anlg_chans+1):
-            self.ch_dict[f"ch{i}"] = Channel(i, self.instr, strict=strict)
-        for i in range(0, self.num_digi_chans):
-            self.ch_dict[f"d{i}"] = Channel(i, self.instr, is_digital=True, strict=strict)
-
-        self.waveform = WaveformTransfer(self.instr)
-
-        # TODO: allow data output to be list of bytes, floats, a csv or a estrace file
-        self.data_output_type = None
-        self.allowed_data_output_types = []
-
-        self.make = self.instr.make
-        self.model = self.instr.model
-
-        self.write = self.instr.write
-        self.ask = self.instr.ask
-        self.read_raw = self.instr.read_raw
-
-    def set_trigger(self, mode: str=None, trig_type: str=None, 
-                    source: str=None, level: Union[str, float]=None):
-        """A scope method to set all trigger attributes desired"""
-        if mode:
-            self.trigger.mode = mode 
-        if trig_type:
-            self.trigger.trig_type = trig_type
-        if source:
-            self.trigger.source = source
-        if level is not None:
-            print("SETTING LEVEL")
-            self.trigger.level = level
-        print(level)
-
-    def set_horizontal(self, scale: float=None, position: float=None):
-        """A scope method to set all horizontal attributes desired"""
-        if scale is not None:
-            self.horizontal.scale = scale
-        if position is not None:
-            self.horizontal.position = position
-
-    def set_channel(self, channel: str, position: float=None, offset: float=None, 
-                    scale: float=None):
-        """A scope method to set all channel attributes desired"""
-        if channel not in self.ch_dict.keys():
-            if self.strict:
-                raise ValueError(f"No Channel '{channel}'. Must be one of {self.ch_dict.keys()}")
-            print(f"No Channel '{channel}'. Must be one of {self.ch_dict.keys()}") 
-
-        if position is not None:
-            self.ch_dict[channel].position = position
-        if offset is not None:
-            self.ch_dict[channel].offset = offset
-        if scale is not None:
-            self.ch_dict[channel].scale = scale
-
-    def set_digital(self):
-        """A scope method to set all digital channel attributes"""
-        raise NotImplementedError
-
-    def set_waveform(self, data_source: str=None, data_encoding: str=None, 
-                     data_width: int=None):
-        """A scope method to set all waveform data related attributes"""
-        if data_source is not None:
-            self.waveform.data_source = data_source
-        if data_encoding is not None:
-            self.waveform.data_encoding = data_encoding
-        if data_width is not None:
-            self.data_width = data_width
-
-    #TODO: Convert dat into useful form
-    def get_waveform(self):
-        """A scope method to caputure data from the scope"""
-        return self.waveform.get_data()
-
-
-if __name__ == "__main__":
-    scope = MDO3024()
-    print(f"Make: {scope.instr.make}\nModel: {scope.instr.model}")

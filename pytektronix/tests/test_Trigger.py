@@ -1,4 +1,6 @@
-from pytronix.scopes import Trigger, DebugScope, ScopeStateError, LoggedVISA
+from scopes import DebugScope, LoggedVISA
+from command_group_objects import Trigger
+from pytektronix_base_classes import ScopeStateError
 import pytest
 from time import sleep
 
@@ -112,8 +114,8 @@ def test_level(TestScope) -> None:
     a = trig.level
     assert(type(a) == float)
 
-    trig.level = 2e-3
-    assert(trig.level == 2e-3)
+    trig.level = .5
+    assert(trig.level == .5)
     
     with pytest.raises(ValueError):
         trig.level = "Unsupported"
