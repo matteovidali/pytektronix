@@ -16,7 +16,14 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
 ]
+dependencies = [
+    "pyvisa-py==0.7.0",
+    "aenum==3.1.15",
+    "python-vxi11==0.9",
+]
 
 [project.urls]
-"Homepage" = "https://github.com/matteovidali/py-tektronix"
-"Bug Tracker" = "https://github.com/matteovidali/py-tektronix/issues"
+"Homepage" = "https://github.com/matteovidali/pytektronix"
+"Bug Tracker" = "https://github.com/matteovidali/pytektronix/issues"
+"Documentation" = "https://github.com/matteovidali/pytektronix/wiki"
+ 
