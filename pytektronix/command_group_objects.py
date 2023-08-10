@@ -44,13 +44,13 @@ class Trigger(CommandGroupObject):
     def state(self):
         """Get current trigger STATE"""
         raw = self.instr.ask("trigger:state")
-        return TrigStrings(raw.lower().strip()).value
+        return TrigStrings(raw.lower()).value
 
     @property
     def mode(self):
         """Get current trigger MODE"""
         raw = self.instr.ask(f"{self.cn}:mode")
-        return TrigStrings(raw.lower().strip()).value
+        return TrigStrings(raw.lower()).value
     @mode.setter
     def mode(self, value: str):
         """Set trigger MODE"""
@@ -61,7 +61,7 @@ class Trigger(CommandGroupObject):
     @property
     def trig_type(self):
         """Get current trigger TYPE"""
-        return TrigStrings(self.instr.ask(f"{self.cn}:type").lower().strip()).value
+        return TrigStrings(self.instr.ask(f"{self.cn}:type").lower()).value
     # TODO: types
     @trig_type.setter
     def trig_type(self, value: str):
@@ -76,7 +76,7 @@ class Trigger(CommandGroupObject):
         trig_type = self.trig_type
         if self.trig_type not in "edge":
             raise NotImplementedError("Source can only be set when trig type is edge")
-        return self.instr.ask(f"{self.cn}:{trig_type}:source").lower().strip()
+        return self.instr.ask(f"{self.cn}:{trig_type}:source").lower()
 
     @source.setter
     def source(self, value):
@@ -231,6 +231,16 @@ class Channel(CommandGroupObject):
         accepted_values = {"MDO3024": ["ac", "dc", "dcreject"]}
         self._set_property_accepted_vals(f"{self.cn}:coupling", accepted_values, value)
 
+class WFStrings(MultiValueEnum):
+    ASCII = 'ascii', 'asc'
+    FASTEST = 'fastest'
+    RIBINARY = 'ribinary', 'rib'
+    RPBINARY = 'rpbinary', 'rpb'
+    SRIBINARY = 'sribinary', 'sri'
+    SRPBINARY = 'srpbinary', 'srp'
+    FPBINARY = 'fpbinary', 'fpb'
+    SFPBINARY = 'sfpbinary', 'sfp'
+
 class WaveformTransfer(CommandGroupObject):
     def __init__(self, instr: Scope, strict: bool=False, auto_init=True):
         self.cn = "" 
@@ -273,7 +283,7 @@ class WaveformTransfer(CommandGroupObject):
     @property
     def data_encoding(self):
         """The data_encoding property."""
-        return self.instr.ask("data:encdg")
+        return WFStrings(self.instr.ask("data:encdg").lower()).value
     @data_encoding.setter
     def data_encoding(self, value):
         accepted_values = {"MDO3024": ["ascii", "fastest", "ribinary", 
@@ -327,14 +337,28 @@ class WaveformTransfer(CommandGroupObject):
         raise NotImplementedError("setting num_points is not currently implemented")
 
     #TODO: fix read_raw when scope is VXI11 - breaks because read_raw not happy
-    def get_data(self):
+    def get_data(self) -> bytearray:
         if not self.data_ready:
             raise ScopeStateError("Scope is not ready to capture data... (Waveform Uninitialized??)")
+
+        
+        de = self.data_encoding.lower()
+        data = None
+
         self.instr.write("curve?")
 
         if type(self.instr) == LoggedVXI11: 
-            return self.instr.read()
+            data =  self.instr.read()
+        else:
+            data = self.instr.read_raw() 
+             
+        if ('binary' or 'fastest') in de:
+            # Removes #N<ndigits> header from binary encoding
+            # data[1] contains the N of <n-digits>
+            # the char and int cast turn it fome an ascii byte into an integer
+            # the 2 is there because the 0th index of the bytearray contains '
+            # and the 1th index of the bytearray is the N iteslf.
+            data = data[2 + int(chr(data[1])):] 
 
-        data = self.instr.read_raw() 
         return data
 

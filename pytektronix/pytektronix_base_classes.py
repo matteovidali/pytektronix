@@ -24,7 +24,7 @@ class CommandGroupObject:
     """A command group meta object which all command group classes can inherit."""
     def _set_property_accepted_vals(self, prop: str, models_accepted_values: dict, value: any):
         if self.instr.model not in self.supported_models:
-            raise NotImplementedError(f"Only models {','.join(self.supported_models)} currently supported")
+            raise NotImplementedError(f"MODEL== {self.instr.model} - Only models {','.join(self.supported_models)} currently supported")
 
         accepted_values = models_accepted_values[self.instr.model]
         
@@ -104,7 +104,7 @@ class LoggedVISA(Scope):
         if self.loud:
             print(result, end='')
 
-        return result
+        return result.strip()
     
     def write(self, command: str) -> None: 
         """Writes a command string to the oscilloscope"""
