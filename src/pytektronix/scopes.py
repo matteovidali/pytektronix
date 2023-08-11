@@ -11,18 +11,47 @@ class MDO3024:
     def __init__(self, resource_id: str=None, vxi11: bool = False, strict: bool = True):
 
         self.instr = LoggedVISA(resource_id=resource_id) if not vxi11 else LoggedVXI11(IP=resource_id)
-        self.trigger = Trigger(self.instr)
-        self.horizontal = Horizontal(self.instr)
+
+        self.trigger_accepted_values = {"mode":      ["normal", "auto"],
+                                        "trig_type": ["edge", "logic", "pulse", "bus", "video"],
+                                        "source":    [*[f"ch{i}" for i in range(1,5)], 
+                                                      *[f"d{i}" for i in range(16)], 
+                                                      "line", "rf"],
+                                        "level":     ["ttl", "ecl", "any_number"]}
+        self.trigger = Trigger(self.instr, self.trigger_accepted_values)
+
+        self.horizontal_accepted_values = {"scale": [(4e-10, 1000)],
+                                           "position": [(0, 100)]}
+        self.horizontal = Horizontal(self.instr, self.horizontal_accepted_values)
+        
+        self.anlg_chan_accepted_values = {"position": [(-8.0, 8.0)],
+                                          "offset": ["any_number"],
+                                          "scale": [(1.0e-12, 500.0e12)],
+                                          "coupling": ["ac", "dc", "dcreject"]}
         self.num_anlg_chans = 4
         self.num_digi_chans = 16
         self.ch_dict = {}
 
         for i in range(1, self.num_anlg_chans+1):
-            self.ch_dict[f"ch{i}"] = Channel(i, self.instr, strict=strict)
+            self.ch_dict[f"ch{i}"] = Channel(i, self.instr, self.anlg_chan_accepted_values, strict=strict)
         for i in range(0, self.num_digi_chans):
             self.ch_dict[f"d{i}"] = Channel(i, self.instr, is_digital=True, strict=strict)
+        
+        self.channels = (c for c in self.ch_dict.values)
 
-        self.waveform = WaveformTransfer(self.instr)
+        self.waveform_accepted_values = {"data_source": [*[f"ch{i}" for i in range(1,5)],
+                                                         *[f"ref{i}" for i in range(1,5)],
+                                                         *[f"d{i}" for i in range(0,16)],
+                                                         "math", "rf_amplitude", "rf_frequency",
+                                                         "rf_phase", "rf_normal", "rf_average",
+                                                         "rf_maxhold", "rf_minhold"],
+                                         "data_encoding": ["ascii", "fastest", "ribinary", 
+                                                           "rpbinary", "sribinary", "srpbinary",
+                                                           "fpbinary", "sfpbinary"],
+                                         "data_start":  [(1, self.num_points)],
+                                         "data_stop": [(1, self.num_points)],
+                                         "num_points": [(1, 2e6)]}
+        self.waveform = WaveformTransfer(self.instr, self.waveform_accepted_values)
 
         # TODO: allow data output to be list of bytes, floats, a csv or a estrace file
         self.data_output_type = None
@@ -42,6 +71,27 @@ class MDO3024:
     def default_setup(self):
         self.write("fpanel:press defaultsetup")
         self.write("HEADER 0")
+
+    def compute_channel_offset_range(self, channel: Channel) -> Tuple:
+        probe_res = {10e6: 0, 
+                     50: 1}[float(self.ch_dict[channel].probe_resistance)]
+
+        vdiv = self.scale
+
+        mdo3024_ranges = [(1e-3, 50e-3), (50e-3,100e-3), 
+                          (100e-3, 500e-3), (505e-3, 995e-3), 
+                          (1, 5), (5, 10)]
+
+        for idx, ran in enumerate(mdo3024_ranges):
+            if vdiv > max(ran):
+                continue
+            accepted_values = [(-1, 1), (-.5, .5), 
+                               (-10, 10), (-5, 5), 
+                               (-100, 100), (-50, 50)][idx]
+            if probe_res and max(accepted_values) > .5:
+                accepted_values = (-5, 5)
+
+        return accepted_values
 
     def set_trigger(self, mode: str=None, trig_type: str=None, 
                     source: str=None, level: Union[str, float]=None) -> None:
@@ -84,6 +134,7 @@ class MDO3024:
         if position is not None:
             self.ch_dict[channel].position = position
         if offset is not None:
+            self.ch_dict[channel].accepted_values["offset"] = [self.compute_channel_offset_range(self.ch_dict[channel])]
             self.ch_dict[channel].offset = offset
         if scale is not None:
             self.ch_dict[channel].scale = scale

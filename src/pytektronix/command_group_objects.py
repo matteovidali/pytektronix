@@ -18,11 +18,12 @@ class TrigStrings(MultiValueEnum):
     AUTO = "auto"
 
 class Trigger(CommandGroupObject):
-    def __init__(self, instr: Scope, strict: bool=True, cn: str="trigger:a"):
+    def __init__(self, instr: Scope, accepted_values: dict, strict: bool=True, cn: str="trigger:a"):
         self.cn = cn
         self.instr = instr
         self.strict = strict
         self.supported_models = ["MDO3024", "DEBUG"]
+        self.accepted_values = accepted_values
 
     def force(self) -> None:
         """Checks if the scope is ready, and then forces a trigger event"""
@@ -33,7 +34,7 @@ class Trigger(CommandGroupObject):
             else:
                 print(f"Scope in incorrect state to be forced: {check}")
                 return
-        allowed_values = {"MDO3024": ["force"]}
+
         self.instr.write("trigger force")
     
     def autoset(self)-> None:
@@ -54,9 +55,7 @@ class Trigger(CommandGroupObject):
     @mode.setter
     def mode(self, value: str):
         """Set trigger MODE"""
-        accepted_values = {"MDO3024": ["normal", "auto"],
-                           "DEBUG":   ["normal", "auto"]}
-        self._set_property_accepted_vals(f"{self.cn}:mode", accepted_values, value) 
+        self._global_setter("mode",f"{self.cn}:mode", value)
 
     @property
     def trig_type(self):
@@ -66,9 +65,7 @@ class Trigger(CommandGroupObject):
     @trig_type.setter
     def trig_type(self, value: str):
         """Set trigger TYPE"""
-        accepted_values = {"MDO3024": ["edge", "logic", "pulse", "bus", "video"],
-                           "DEBUG": ["edge", "logic"]}
-        self._set_property_accepted_vals(f"{self.cn}:type", accepted_values, value)
+        self._global_setter("trig_type", f"{self.cn}:type", value)
     
     @property
     def source(self):
@@ -82,13 +79,10 @@ class Trigger(CommandGroupObject):
     def source(self, value):
         """Set trigger SOURCE"""
         trig_type = self.trig_type
-        if self.trig_type not in ["edge"]:
+        if trig_type not in ["edge"]:
             raise NotImplementedError("Source can only be set when trig type is edge")
-        accepted_values = {"MDO3024": [*[f"ch{i}" for i in range(1,5)], 
-                                       *[f"d{i}" for i in range(16)], 
-                                       "line", "rf"],
-                           "DEBUG":   ["CH1"]}
-        self._set_property_accepted_vals(f"{self.cn}:{trig_type}:source", accepted_values, value)
+        
+        self._global_setter("source", f"{self.cn}:{trig_type}:source", accepted_values, value)
 
     @property
     def level(self) -> float:
@@ -110,17 +104,16 @@ class Trigger(CommandGroupObject):
                                   "DEBUG":   ["ch"]}
         if trig_source_type not in accepted_source_values[self.instr.model]:
             return "Trigger level cannot be ascertained for sources other that CH<i>, D<i>, or AUX"
-        accepted_values = {"MDO3024": ["ttl", "ecl", "any_number"],
-                           "DEBUG":   ["any_number"]}
-        self._set_property_accepted_vals(f"{self.cn}:level:{trig_source}", accepted_values, value)
+        self._global_setter("level", f"{self.cn}:level:{trig_source}", value)
 
 
 class Horizontal(CommandGroupObject):
-    def __init__(self, instr: Scope, strict: bool=True, cn: str="horizontal"):
+    def __init__(self, instr: Scope, accepted_values: dict, strict: bool=True, cn: str="horizontal"):
         self.cn = cn
         self.instr = instr
         self.strict = strict
         self.supported_models = ["MDO3024", "DEBUG"]
+        self.accepted_values = accepted_values
     
     @property
     def scale(self):
@@ -130,9 +123,7 @@ class Horizontal(CommandGroupObject):
     def scale(self, value) -> float:
         """Specifies horizontal SCALE (400ps to 1000s).
            NOTE: Must be an exact scope scale increment (1, 4, 10 etc)"""
-        accepted_values = {"MDO3024": [(4e-10, 1000)],
-                           "DEBUG":   ["any_number"]}
-        self._set_property_accepted_vals(f"{self.cn}:scale", accepted_values, value)
+        self._global_setter("scale", f"{self.cn}:scale", value)
 
     @property
     def position(self) -> float:
@@ -142,9 +133,7 @@ class Horizontal(CommandGroupObject):
     def position(self, value):
         """Sets current horizontal POSITION as a percentage of the 
            currently captured waveform: [0%, 100%]"""
-        accepted_values = {"MDO3024": [(0, 100)],
-                           "DEBUG":   [(0, 100)]}
-        self._set_property_accepted_vals(f"{self.cn}:position", accepted_values, value)
+        self._global_setter("position", f"{self.cn}:position", value)
     
     @property
     def sample_rate(self):
@@ -152,22 +141,22 @@ class Horizontal(CommandGroupObject):
         return self.instr.ask(f"{self.cn}:samplerate")
 
 class Channel(CommandGroupObject):
-    def __init__(self, chan_num: int, instr: Scope, is_digital: bool=False,
-                 strict: bool=True, cn: str="ch"):
+    def __init__(self, chan_num: int, instr: Scope, accepted_values: dict, 
+                 is_digital: bool=False, strict: bool=True, cn: str="ch"):
         self.cn = f"{cn}{chan_num}"
         self.instr = instr
         self.is_digital = is_digital
         self.strict = strict
         self.supported_models = ["MDO3024", "DEBUG"]
+        self.accepted_values = accepted_values
+
     @property
     def position(self) -> float:
         """The position property."""
         return float(self.instr.ask(f"{self.cn}:position"))
     @position.setter
     def position(self, value):
-        accepted_values = {"MDO3024": [(-8.0, 8.0)],
-                           "DEBUG":   [(-8.0, 8.0)]}
-        self._set_property_accepted_vals(f"{self.cn}:position", accepted_values, value)
+        self._global_setter("position", f"{self.cn}:position", value)
 
     @property
     def offset(self) -> float:
@@ -175,35 +164,8 @@ class Channel(CommandGroupObject):
         return float(self.instr.ask(f"{self.cn}:offset"))
     @offset.setter
     def offset(self, value):
-        #DONE: FIX offset accepted values - needs probe resistance
-        accepted_values = {"MDO3024": None, 
-                           "DEBUG":   ["any_number"]}
-
-        accepted_values["MDO3024"] = self.compute_offset_range_for_mdo3024()
-
-        self._set_property_accepted_vals(f"{self.cn}:offset", accepted_values, value)
-
-    def compute_offset_range_for_mdo3024(self):
-        probe_res = {10e6: 0, 
-                     50: 1,
-                     1e6: 0}[float(self.probe_resistance)]
-
-        vdiv = self.scale
-
-        mdo3024_ranges = [(1e-3, 50e-3), (50e-3,100e-3), 
-                          (100e-3, 500e-3), (505e-3, 995e-3), 
-                          (1, 5), (5, 10)]
-
-        for idx, ran in enumerate(mdo3024_ranges):
-            if vdiv > max(ran):
-                continue
-            accepted_values =[ [(-1, 1), (-.5, .5), 
-                                (-10, 10), (-5, 5), 
-                                (-100, 100), (-50, 50)][idx] ]
-            if probe_res and max(accepted_values) > .5:
-                accepted_values["MDO3024"] = [(-5, 5)]
-
-        return accepted_values
+        """Set the channel offset"""
+        self._global_setter("offset", f"{self.cn}:offset", value)
 
     @property
     def scale(self) -> float:
@@ -213,9 +175,7 @@ class Channel(CommandGroupObject):
     def scale(self, value) -> None:
         """Sets the channel SCALE to <value> V/Division"""
         # TODO: FIX MDO3024 accepted scale range
-        accepted_values = {"MDO3024": [(1.0e-12, 500.0e12)],
-                           "DEBUG":   ["any_number"]} 
-        self._set_property_accepted_vals(f"{self.cn}:scale", accepted_values, value)
+        self._global_setter("scale", f"{self.cn}:scale", value)
 
     @property
     def probe_resistance(self) -> float:
@@ -228,8 +188,7 @@ class Channel(CommandGroupObject):
         return self.instr.ask(f"{self.cn}:coupling")
     @coupling.setter
     def coupling(self, value):
-        accepted_values = {"MDO3024": ["ac", "dc", "dcreject"]}
-        self._set_property_accepted_vals(f"{self.cn}:coupling", accepted_values, value)
+        self._global_setter("coupling", f"{self.cn}:coupling", value)
 
 class WFStrings(MultiValueEnum):
     ASCII = 'ascii', 'asc'
@@ -271,14 +230,7 @@ class WaveformTransfer(CommandGroupObject):
     @data_source.setter
     def data_source(self, value):
         #TODO: Fix allowed types!
-        accepted_values = {"MDO3024": [*[f"ch{i}" for i in range(1,5)],
-                                      *[f"ref{i}" for i in range(1,5)],
-                                      *[f"d{i}" for i in range(0,16)],
-                                      "math", "rf_amplitude", "rf_frequency",
-                                      "rf_phase", "rf_normal", "rf_average",
-                                      "rf_maxhold", "rf_minhold"],
-                          "DEBUG": ["CH1"]} 
-        self._set_property_accepted_vals("data:source", accepted_values, value)
+        self._global_setter("data_source", "data:source", accepted_values, value)
 
     @property
     def data_encoding(self):
@@ -286,11 +238,7 @@ class WaveformTransfer(CommandGroupObject):
         return WFStrings(self.instr.ask("data:encdg").lower()).value
     @data_encoding.setter
     def data_encoding(self, value):
-        accepted_values = {"MDO3024": ["ascii", "fastest", "ribinary", 
-                                       "rpbinary", "sribinary", "srpbinary",
-                                       "fpbinary", "sfpbinary"],
-                           "DEBUG": ["ascii", "binary"]}
-        self._set_property_accepted_vals("data:encdg", accepted_values, value)
+        self._global_setter("data_encoding", "data:encdg", value)
 
     @property
     def data_width(self) -> int:
@@ -298,16 +246,16 @@ class WaveformTransfer(CommandGroupObject):
         return int(self.instr.ask("data:width"))
     @data_width.setter
     def data_width(self, value):
-        accepted_values = {"MDO3024": None}
+        #TODO: re-think accepted value calculation here
         data_source = self.data_source
         value = str(value)
         if data_source == "digital":
-            accepted_values["MDO3024"] = ["4", "8"]
+            self.accepted_values["data_width"] = ["4", "8"]
         elif data_source in ["rf_normal", "rf_average", "rf_maxhold", "rf_minhold"]:
-            accepted_values["MDO3024"] = ["4"]
+            self.accepted_values["data_width"] = ["4"]
         else:
-            accepted_values["MDO3024"] = ["1", "2"]
-        self._set_property_accepted_vals("data:width", accepted_values, value)
+            self.accepted_values["data_width"] = ["1", "2"]
+        self._global_setter("data_width","data:width", accepted_values, value)
 
     @property
     def data_start(self) -> int:
@@ -315,8 +263,7 @@ class WaveformTransfer(CommandGroupObject):
         return int(self.instr.ask("data:start"))
     @data_start.setter
     def data_start(self, value):
-        accepted_values = {"MDO3024": [(0, self.num_points)]}
-        self._set_property_accepted_vals("data:start", accepted_values, value)
+        self._global_setter("data_start", "data:start", value)
 
     @property
     def data_stop(self) -> int:
@@ -324,8 +271,7 @@ class WaveformTransfer(CommandGroupObject):
         return int(self.instr.ask("data:stop"))
     @data_stop.setter
     def data_stop(self, value):
-        accepted_values = {"MDO3024": [(1, self.num_points)]}
-        self._set_property_accepted_vals("data:stop", accepted_values, value)
+        self._global_setter("data_stop", "data:stop", value)
 
     @property
     def num_points(self) -> int:
@@ -333,7 +279,6 @@ class WaveformTransfer(CommandGroupObject):
         return int(self.instr.ask("WFMInpre:NR_Pt"))
     @num_points.setter
     def num_points(self, value):
-        accepted_values = {"MDO3024": [(1, 2e6)]}
         raise NotImplementedError("setting num_points is not currently implemented")
 
     #TODO: fix read_raw when scope is VXI11 - breaks because read_raw not happy
