@@ -195,7 +195,7 @@ class MDO3024:
         
 
 class MSO54:
-     def __init__(self, resource_id: str=None, vxi11: bool = False, strict: bool = True):
+    def __init__(self, resource_id: str=None, vxi11: bool = False, strict: bool = True):
 
         self.instr = LoggedVISA(resource_id=resource_id) if not vxi11 else LoggedVXI11(IP=resource_id)
 
