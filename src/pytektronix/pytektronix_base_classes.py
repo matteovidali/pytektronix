@@ -2,7 +2,7 @@ import pyvisa
 import vxi11
 from typing import Tuple
 from pathlib import Path
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod, abstractproperty
 
 class ScopeStateError(Exception):
     def __init__(self, message: str="INVALID SCOPE STATE"):
@@ -23,8 +23,7 @@ class Scope(metaclass=ABCMeta):
 class CommandGroupObject(metaclass=ABCMeta):
     """A command group meta object which all command group classes can inherit."""
 
-    @property
-    @abstractmethod
+    @abstractproperty
     def accepted_values(self):
         pass
 
@@ -39,7 +38,7 @@ class CommandGroupObject(metaclass=ABCMeta):
         if self.instr.model not in self.supported_models:
             raise NotImplementedError(f"MODEL== {self.instr.model} - Only models {','.join(self.supported_models)} currently supported")
 
-        accepted_values = models_accepted_values[self.instr.model]
+        accepted_values = models_accepted_values #models_accepted_values[self.instr.model]
         
         if type(value) in [float, int]: 
             if "any_number" in accepted_values:

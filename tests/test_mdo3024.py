@@ -1,8 +1,11 @@
+import sys
+sys.path.append("../src/pytektronix")
 from scopes import MDO3024 
 import pytest
 from time import sleep
 
 SCOPE = None
+AV = None
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_module():
@@ -48,3 +51,5 @@ def test_set_trigger_level():
         SCOPE.set_trigger(level=level)
         assert(SCOPE.trigger.level == level)
 
+def test_sessionfinish():
+    SCOPE.close()

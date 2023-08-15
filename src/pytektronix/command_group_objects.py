@@ -1,6 +1,6 @@
 from aenum import MultiValueEnum
-from pytektronix.pytektronix_base_classes import CommandGroupObject, Scope
-from pytektronix.pytektronix_base_classes import ScopeStateError, LoggedVXI11
+from pytektronix_base_classes import CommandGroupObject, Scope
+from pytektronix_base_classes import ScopeStateError, LoggedVXI11
 
 from string import digits
 
@@ -23,7 +23,15 @@ class Trigger(CommandGroupObject):
         self.instr = instr
         self.strict = strict
         self.supported_models = ["MDO3024", "DEBUG"]
-        self.accepted_values = accepted_values
+        self._accepted_values = accepted_values
+
+    @property
+    def accepted_values(self):
+        """The accepted_values property."""
+        return self._accepted_values
+    @accepted_values.setter
+    def accepted_values(self, value):
+        self._accepted_values = value
 
     def force(self) -> None:
         """Checks if the scope is ready, and then forces a trigger event"""
@@ -82,7 +90,7 @@ class Trigger(CommandGroupObject):
         if trig_type not in ["edge"]:
             raise NotImplementedError("Source can only be set when trig type is edge")
         
-        self._global_setter("source", f"{self.cn}:{trig_type}:source", accepted_values, value)
+        self._global_setter("source", f"{self.cn}:{trig_type}:source", value)
 
     @property
     def level(self) -> float:
@@ -113,8 +121,16 @@ class Horizontal(CommandGroupObject):
         self.instr = instr
         self.strict = strict
         self.supported_models = ["MDO3024", "DEBUG"]
-        self.accepted_values = accepted_values
-    
+        self._accepted_values = accepted_values
+   
+    @property
+    def accepted_values(self):
+        """The accepted_values property."""
+        return self._accepted_values
+    @accepted_values.setter
+    def accepted_values(self, value):
+        self._accepted_values = value
+
     @property
     def scale(self):
         """Get the current horizontal SCALE [S]"""
@@ -148,7 +164,15 @@ class Channel(CommandGroupObject):
         self.is_digital = is_digital
         self.strict = strict
         self.supported_models = ["MDO3024", "DEBUG"]
-        self.accepted_values = accepted_values
+        self._accepted_values = accepted_values
+
+    @property
+    def accepted_values(self):
+        """The accepted_values property."""
+        return self._accepted_values
+    @accepted_values.setter
+    def accepted_values(self, value):
+        self._accepted_values = value
 
     @property
     def position(self) -> float:
@@ -201,14 +225,24 @@ class WFStrings(MultiValueEnum):
     SFPBINARY = 'sfpbinary', 'sfp'
 
 class WaveformTransfer(CommandGroupObject):
-    def __init__(self, instr: Scope, strict: bool=False, auto_init=True):
+    def __init__(self, instr: Scope, accepted_values: dict, 
+                 strict: bool=False, auto_init=True):
         self.cn = "" 
         self.instr = instr
         self.strict = strict
         self.data_ready = False
         self.supported_models = ["MDO3024"]
+        self._accepted_values = accepted_values
         if auto_init:
             self.initialize_data()
+
+    @property
+    def accepted_values(self):
+        """The accepted_values property."""
+        return self._accepted_values
+    @accepted_values.setter
+    def accepted_values(self, value):
+        self._accepted_values = value
 
     def initialize_data(self, data_source: str = "CH1"):
         self.data_source = "CH1"
@@ -230,7 +264,7 @@ class WaveformTransfer(CommandGroupObject):
     @data_source.setter
     def data_source(self, value):
         #TODO: Fix allowed types!
-        self._global_setter("data_source", "data:source", accepted_values, value)
+        self._global_setter("data_source", "data:source", value)
 
     @property
     def data_encoding(self):
@@ -255,7 +289,7 @@ class WaveformTransfer(CommandGroupObject):
             self.accepted_values["data_width"] = ["4"]
         else:
             self.accepted_values["data_width"] = ["1", "2"]
-        self._global_setter("data_width","data:width", accepted_values, value)
+        self._global_setter("data_width","data:width", value)
 
     @property
     def data_start(self) -> int:

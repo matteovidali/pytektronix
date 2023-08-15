@@ -4,8 +4,8 @@ from pathlib import Path
 from typing import Union, Tuple
 import numpy as np
 
-from pytektronix.pytektronix_base_classes import Scope, ScopeStateError, LoggedVXI11, LoggedVISA
-from pytektronix.command_group_objects import Trigger, Channel, Horizontal, WaveformTransfer
+from pytektronix_base_classes import Scope, ScopeStateError, LoggedVXI11, LoggedVISA
+from command_group_objects import Trigger, Channel, Horizontal, WaveformTransfer
 
 # TODO: FIXME
 class MDO3024:
@@ -36,9 +36,10 @@ class MDO3024:
         for i in range(1, self.num_anlg_chans+1):
             self.ch_dict[f"ch{i}"] = Channel(i, self.instr, self.anlg_chan_accepted_values, strict=strict)
         for i in range(0, self.num_digi_chans):
-            self.ch_dict[f"d{i}"] = Channel(i, self.instr, is_digital=True, strict=strict)
+            # TODO: FIXME THIS IS INCORRECT ACCEPTED VALUES
+            self.ch_dict[f"d{i}"] = Channel(i, self.instr, self.anlg_chan_accepted_values, is_digital=True, strict=strict)
         
-        self.channels = (c for c in self.ch_dict.values)
+        #self.channels = (c for c in self.ch_dict.values)
 
         self.waveform_accepted_values = {"data_source": [*[f"ch{i}" for i in range(1,5)],
                                                          *[f"ref{i}" for i in range(1,5)],
@@ -49,8 +50,8 @@ class MDO3024:
                                          "data_encoding": ["ascii", "fastest", "ribinary", 
                                                            "rpbinary", "sribinary", "srpbinary",
                                                            "fpbinary", "sfpbinary"],
-                                         "data_start":  [(1, self.num_points)],
-                                         "data_stop": [(1, self.num_points)],
+                                         "data_start":  [(1, 2e6)],
+                                         "data_stop": [(1, 2e6)],
                                          "num_points": [(1, 2e6)]}
         self.waveform = WaveformTransfer(self.instr, self.waveform_accepted_values)
 
