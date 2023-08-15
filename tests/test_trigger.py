@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../src/pytektronix/")
+sys.path.append("src/pytektronix/")
 
 from scopes import LoggedVISA
 from command_group_objects import Trigger
