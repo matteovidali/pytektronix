@@ -8,6 +8,10 @@ class ScopeStateError(Exception):
     def __init__(self, message: str="INVALID SCOPE STATE"):
         super().__init__(message)
 
+class ScopeNotSupportedError(Exception):
+    def __init__(self, message: str="NO SCOPE SUPPORT"):
+        super().__init__(message)
+
 class Scope(metaclass=ABCMeta):
     """An abstract metaclass for any type of scope communication (VISA, VXI11 and DEBUG)""" 
     @abstractmethod
