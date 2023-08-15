@@ -200,13 +200,18 @@ class MSO54:
 
         self.instr = LoggedVISA(resource_id=resource_id) if not vxi11 else LoggedVXI11(IP=resource_id)
 
+        self.num_anlg_chans = 4
+        self.num_digi_chans = 16
+
         self.triggerAAcceptedValues = {"mode":      ["normal", "auto"],
-                                        "trig_type": ["edge", "logic", "pulse", "bus", "video"],
-                                        "source":    [*[f"ch{i}" for i in range(1,5)], 
-                                                      *[f"d{i}" for i in range(16)], 
-                                                      "line", "rf"],
+                                        "trig_type": ["edge", "logic", "width", 
+                                                      "timeout", "runt", "window", 
+                                                      "sethold", "transition", "bus"],
+                                        "source":    [*[f"ch{i}" for i in range(1,self.num_anlg_chans+1)], 
+                                                      *[f"ch{j}_d{i}" for j in range(1,self.num_anlg_chans + 1) for i in range(self.num_digi_chans)], 
+                                                      "line", "aux"],
                                         "level":     ["ttl", "ecl", "any_number"]}
-        self.triggerA = Trigger(self.instr, self.trigger_a_accepted_values)
+        self.trigger = Trigger(self.instr, self.triggerAAcceptedValues)
         self.triggerBAcceptedValues = {"mode":      ["normal", "auto"],
                                         "trig_type": ["edge", "logic", "pulse", "bus", "video"],
                                         "source":    [*[f"ch{i}" for i in range(1,5)], 
@@ -219,32 +224,32 @@ class MSO54:
                                            "position": [(0, 100)]}
         self.horizontal = Horizontal(self.instr, self.horizontal_accepted_values)
         
-        self.anlg_chan_accepted_values = {"position": [(-8.0, 8.0)],
+        self.anlg_chan_accepted_values = {"position": ["any_number"],
                                           "offset": ["any_number"],
-                                          "scale": [(1.0e-12, 500.0e12)],
+                                          "scale": ["any_number"],
                                           "coupling": ["ac", "dc", "dcreject"]}
-        self.num_anlg_chans = 4
-        self.num_digi_chans = 16
         self.ch_dict = {}
 
         for i in range(1, self.num_anlg_chans+1):
             self.ch_dict[f"ch{i}"] = Channel(i, self.instr, self.anlg_chan_accepted_values, strict=strict)
-        for i in range(0, self.num_digi_chans):
-            self.ch_dict[f"d{i}"] = Channel(i, self.instr, is_digital=True, strict=strict)
+            for j in range(0, self.num_digi_chans):
+                self.ch_dict[f"ch_{i}_d{j}"] = Channel(j, self.instr, self.anlg_chan_accepted_values, is_digital=True, strict=strict, cn=f"ch{i}_d")
         
-        self.channels = (c for c in self.ch_dict.values)
+        #self.channels = (c for c in self.ch_dict.values)
 
-        self.waveform_accepted_values = {"data_source": [*[f"ch{i}" for i in range(1,5)],
+        self.waveform_accepted_values = {"data_source": [*[f"ch{i}" for i in range(1,self.num_anlg_chans+1)],
                                                          *[f"ref{i}" for i in range(1,5)],
-                                                         *[f"d{i}" for i in range(0,16)],
+                                                         *[f"ch{j}_d{i}" for j in range(1, self.num_anlg_chans+1) for i in range(self.num_digi_chans)],
                                                          "math", "rf_amplitude", "rf_frequency",
                                                          "rf_phase", "rf_normal", "rf_average",
-                                                         "rf_maxhold", "rf_minhold"],
+                                                         "rf_maxhold", "rf_minhold",
+                                                         *[f"ch{i}_dall" for i in range(1,self.num_anlg_chans+1)],
+                                                         "digitalall"],
                                          "data_encoding": ["ascii", "fastest", "ribinary", 
                                                            "rpbinary", "sribinary", "srpbinary",
                                                            "fpbinary", "sfpbinary"],
-                                         "data_start":  [(1, self.num_points)],
-                                         "data_stop": [(1, self.num_points)],
+                                         "data_start":  [(1, 2e6)],
+                                         "data_stop": [(1, 2e6)],
                                          "num_points": [(1, 2e6)]}
         self.waveform = WaveformTransfer(self.instr, self.waveform_accepted_values)
 
@@ -288,11 +293,11 @@ class MSO54:
 
         return accepted_values
 
-    def set_trigger(self, mode: str=None, trig_type: str=None, 
+    def set_trigger(self, trigger: str="a", mode: str=None, trig_type: str=None, 
                     source: str=None, level: Union[str, float]=None) -> None:
         """A scope method to set all trigger attributes desired"""
         if mode:
-            self.trigger.mode = mode 
+            self.trigger.mode = mode
         if trig_type:
             self.trigger.trig_type = trig_type
         if source:
@@ -376,5 +381,5 @@ class MSO54:
 
 
 if __name__ == "__main__":
-    scope = MDO3024()
+    scope = MSO54()
     print(f"Make: {scope.instr.make}\nModel: {scope.instr.model}")
