@@ -4,8 +4,8 @@ from pathlib import Path
 from typing import Union, Tuple
 import numpy as np
 
-from pytektronix_base_classes import Scope, ScopeStateError, LoggedVXI11, LoggedVISA
-from command_group_objects import Trigger, Channel, Horizontal, WaveformTransfer
+from pytektronix.pytektronix_base_classes import Scope, ScopeStateError, LoggedVXI11, LoggedVISA
+from pytektronix.command_group_objects import Trigger, Channel, Horizontal, WaveformTransfer
 
 # TODO: FIXME
 class MDO3024:
@@ -374,12 +374,24 @@ class MSO54:
                 \rData Stop (sample): {self.waveform.data_stop}"
 
     #TODO: Convert dat into useful for
-    def get_waveform(self, format: str='default'):
+    def get_waveform(self, format: str='default') -> Union[bytearray, np.ndarray, list]:
         """A scope method to caputure data from the scope"""
+
+        data = self.waveform.get_data()
+        dw = {1: np.uint8,
+              2: np.uint16,
+              4: np.uint32,
+              8: np.uint64} 
+
         if not format or format == 'default':
-            return self.waveform.get_data()
+            return data
+        
+        if format == "np_array":
+            return np.frombuffer(data, dtype=dw[self.waveform.data_width])
 
-
+        if format == "list":
+            return list(np.frombuffer(data, dtype=dw[self.waveform.data_width]))
+ 
 if __name__ == "__main__":
     scope = MSO54()
     print(f"Make: {scope.instr.make}\nModel: {scope.instr.model}")

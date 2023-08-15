@@ -1,6 +1,6 @@
 from aenum import MultiValueEnum
-from pytektronix_base_classes import CommandGroupObject, Scope
-from pytektronix_base_classes import ScopeStateError, LoggedVXI11
+from pytektronix.pytektronix_base_classes import CommandGroupObject, Scope
+from pytektronix.pytektronix_base_classes import ScopeStateError, LoggedVXI11
 
 from string import digits
 
