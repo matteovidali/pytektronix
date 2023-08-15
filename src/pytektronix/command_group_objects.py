@@ -177,41 +177,59 @@ class Channel(CommandGroupObject):
     @property
     def position(self) -> float:
         """The position property."""
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no position property")
         return float(self.instr.ask(f"{self.cn}:position"))
     @position.setter
     def position(self, value):
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no position property")
         self._global_setter("position", f"{self.cn}:position", value)
 
     @property
     def offset(self) -> float:
         """The offset property."""
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no offset property")
         return float(self.instr.ask(f"{self.cn}:offset"))
     @offset.setter
     def offset(self, value):
         """Set the channel offset"""
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no offset property")
         self._global_setter("offset", f"{self.cn}:offset", value)
 
     @property
     def scale(self) -> float:
         """The scale property."""
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no scale property")
         return float(self.instr.ask(f"{self.cn}:scale"))
     @scale.setter
     def scale(self, value) -> None:
         """Sets the channel SCALE to <value> V/Division"""
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no scale property")
         # TODO: FIX MDO3024 accepted scale range
         self._global_setter("scale", f"{self.cn}:scale", value)
 
     @property
     def probe_resistance(self) -> float:
         """Get channel PROBE RESISTANCE in OHMS"""
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no probe resistance property")
         return float(self.instr.ask(f"{self.cn}:probe:resistance"))
 
     @property
     def coupling(self):
         """The coupling property."""
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no coupling property")
         return self.instr.ask(f"{self.cn}:coupling")
     @coupling.setter
     def coupling(self, value):
+        if self.is_digital:
+            raise ScopeNotSupportedError("Digital Channels have no position property")
         self._global_setter("coupling", f"{self.cn}:coupling", value)
 
 class WFStrings(MultiValueEnum):
