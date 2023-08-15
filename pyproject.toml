@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pytektronix"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Matteo Vidali", email="mmvidali@gmail.com" },
   { name="Barrett Tieman", email="mmvidali@gmail.com" }, 
@@ -18,8 +18,8 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pyvisa-py==0.7.0",
-    "aenum==3.1.15",
+    "pyvisa-py==0.5.3",
+    "aenum==3.1.11",
     "python-vxi11==0.9",
 ]
 
