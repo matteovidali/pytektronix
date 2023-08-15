@@ -27,6 +27,10 @@ class Scope(metaclass=ABCMeta):
 class CommandGroupObject(metaclass=ABCMeta):
     """A command group meta object which all command group classes can inherit."""
 
+    @property
+    def supported_models(self):
+        return ["MSO54", "MDO3024", "DEBUG"]
+
     @abstractproperty
     def accepted_values(self):
         pass

@@ -4,9 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pytektronix"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="Matteo Vidali", email="mmvidali@gmail.com" },
+  { name="Barrett Tieman", email="mmvidali@gmail.com" }, 
 ]
 description = "A python package for controlling tektronix scopes"
 readme = "README.md"

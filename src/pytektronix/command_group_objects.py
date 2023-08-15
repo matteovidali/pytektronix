@@ -22,7 +22,6 @@ class Trigger(CommandGroupObject):
         self.cn = cn
         self.instr = instr
         self.strict = strict
-        self.supported_models = ["MDO3024", "DEBUG"]
         self._accepted_values = accepted_values
 
     @property
@@ -120,7 +119,6 @@ class Horizontal(CommandGroupObject):
         self.cn = cn
         self.instr = instr
         self.strict = strict
-        self.supported_models = ["MDO3024", "DEBUG"]
         self._accepted_values = accepted_values
    
     @property
@@ -163,7 +161,6 @@ class Channel(CommandGroupObject):
         self.instr = instr
         self.is_digital = is_digital
         self.strict = strict
-        self.supported_models = ["MDO3024", "DEBUG"]
         self._accepted_values = accepted_values
 
     @property
@@ -249,7 +246,6 @@ class WaveformTransfer(CommandGroupObject):
         self.instr = instr
         self.strict = strict
         self.data_ready = False
-        self.supported_models = ["MDO3024"]
         self._accepted_values = accepted_values
         if auto_init:
             self.initialize_data()
