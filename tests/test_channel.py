@@ -1,7 +1,13 @@
-from scopes import Channel, DebugScope, ScopeStateError, LoggedVISA
+import sys
+sys.path.append("src/pytektronix")
+from scopes import Channel, ScopeStateError, LoggedVISA
 import pytest
 
 SCOPE = None
+AV = {"position": [(-8.0, 8.0)],
+      "offset": ["any_number"],
+      "scale": [(1.0e-12, 500.0e12)],
+      "coupling": ["ac", "dc", "dcreject"]}
 
 @pytest.fixture()
 def TestScope():
@@ -22,12 +28,12 @@ def setup_module():
 
 def test_init(TestScope) -> None:
     scope = TestScope
-    chan = Channel(1, scope)
+    chan = Channel(1, scope, AV)
     assert(chan.cn == "ch1")
 
 def test_position(TestScope) -> None:
     scope = TestScope
-    chan = Channel(1,  scope)
+    chan = Channel(1,  scope, AV)
     assert(chan.position == 0)
     
     chan.position = -2
@@ -38,7 +44,7 @@ def test_position(TestScope) -> None:
 
 def test_offset(TestScope) -> None:
     scope = TestScope
-    chan = Channel(1, scope)
+    chan = Channel(1, scope, AV)
     
     assert(chan.offset == 0)
     
@@ -47,7 +53,7 @@ def test_offset(TestScope) -> None:
 
 def test_scale(TestScope) -> None:
     scope = TestScope
-    chan = Channel(1, scope)
+    chan = Channel(1, scope, AV)
     assert(chan.scale == 1)
 
     chan.scale = 1.0e-2
@@ -61,7 +67,7 @@ def test_scale(TestScope) -> None:
 
 def test_probe_resistance(TestScope) -> None:
     scope = TestScope
-    chan = Channel(3, scope)
+    chan = Channel(3, scope, AV)
 
     assert(type(chan.probe_resistance) == float)
 

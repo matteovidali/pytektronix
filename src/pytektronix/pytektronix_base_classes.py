@@ -2,17 +2,21 @@ import pyvisa
 import vxi11
 from typing import Tuple
 from pathlib import Path
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod, abstractproperty
 
 class ScopeStateError(Exception):
     def __init__(self, message: str="INVALID SCOPE STATE"):
+        super().__init__(message)
+
+class ScopeNotSupportedError(Exception):
+    def __init__(self, message: str="NO SCOPE SUPPORT"):
         super().__init__(message)
 
 class Scope(metaclass=ABCMeta):
     """An abstract metaclass for any type of scope communication (VISA, VXI11 and DEBUG)""" 
     @abstractmethod
     def ask(self) -> str:
-        """A method to query the scope, which expects a return string"""
+        """A method to query the scope, which expects a return string (lowercase)"""
         pass
 
     @abstractmethod
@@ -20,13 +24,29 @@ class Scope(metaclass=ABCMeta):
         """A method to send a command to the scope without waiting for a response"""
         pass
 
-class CommandGroupObject:
+class CommandGroupObject(metaclass=ABCMeta):
     """A command group meta object which all command group classes can inherit."""
+
+    @property
+    def supported_models(self):
+        return ["MSO54", "MDO3024", "DEBUG"]
+
+    @abstractproperty
+    def accepted_values(self):
+        pass
+
+    def _global_setter(self, command_name: str, command: str, value):
+        """Global call for setting"""
+        if command_name not in self.accepted_values.keys():
+            raise KeyError(f"No accepted value present for '{command_name.upper()}' - please set an accepted value parameter for '{command_name}'") 
+        av = self.accepted_values[command_name]
+        self._set_property_accepted_vals(command, av, value)
+            
     def _set_property_accepted_vals(self, prop: str, models_accepted_values: dict, value: any):
         if self.instr.model not in self.supported_models:
             raise NotImplementedError(f"MODEL== {self.instr.model} - Only models {','.join(self.supported_models)} currently supported")
 
-        accepted_values = models_accepted_values[self.instr.model]
+        accepted_values = models_accepted_values #models_accepted_values[self.instr.model]
         
         if type(value) in [float, int]: 
             if "any_number" in accepted_values:
@@ -139,8 +159,11 @@ class LoggedVXI11(vxi11.Instrument, Scope):
         super().__init__(IP)
         self.log: str = ""
         self.ip = IP if IP else os.environ["OSCILLOSCOPE"]
-        self.make = "TEKTRONIX"
-        self.model = "MDO3024"
+        self.make, self.model = self._get_make_and_model()
+
+    def _get_make_and_model(self):
+        self.make, self.model = self.ask("*IDN?").split(",")[0:2]
+        return self.make, self.model
 
     def write(self, query: str):
         self.log += f"{query}\n"
@@ -155,37 +178,6 @@ class LoggedVXI11(vxi11.Instrument, Scope):
         fpath = self.ip+"_init.txt" if not fpath else fpath
         with open(fpath, "w+") as init_f:
             init_f.write(self.log)
-
-
-#TODO: FIX ME
-class DebugScope(Scope):
-    def __init__(self, loud: bool=False):
-        self.make = "DEBUG_MAKE"
-        self.model = "DEBUG"
-        self.log = ""
-
-        self.t_mode = "auto"
-        self.t_type = "edge"
-        self.t_source = "ch1"
-        self.t_state = "ready"
-
-        self.responses = {"trigger:state": self.t_state,
-                          "trigger:a:mode": self.t_mode,
-                          "trigger:a:type": self.t_type,
-                          "trigger:a:edge:source": self.t_source}
-
-    def ask(self, q: str):
-    #return q+'?' if '?' not in q else q
-        q += "?" if "?" not in q else ""
-        self.log += q + "\n"
-        return self.responses[q[:-1]] 
-
-    def write(self, q:str):
-        self.log += q + "\n"
-        q = q.split(" ")
-        if len(q) > 1:
-            self.responses[q[0]] = q[1]
-        return q
 
 #TODO: FIX ME
 class DebugScope(Scope):

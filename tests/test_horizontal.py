@@ -1,5 +1,11 @@
+import sys
+sys.path.append('src/pytektronix')
 from scopes import LoggedVISA, Horizontal, ScopeStateError
 import pytest
+
+SCOPE = None
+AV = {"scale": [(4e-10, 1000)],
+      "position": [(0, 100)]}
 
 @pytest.fixture()
 def TestScope():
@@ -21,13 +27,13 @@ def setup_module():
 
 def test_init(TestScope) -> None:
     scope = TestScope
-    hor = Horizontal(scope)
+    hor = Horizontal(scope, AV)
     a = hor.scale
     assert(a == 4e-6)
 
 def test_scale(TestScope) -> None:
     scope = TestScope
-    hor = Horizontal(scope)
+    hor = Horizontal(scope, AV)
 
     a = hor.scale
     assert(a == 4.0e-6)
@@ -37,7 +43,7 @@ def test_scale(TestScope) -> None:
 
 def test_position(TestScope) -> None:
     scope = TestScope
-    hor = Horizontal(scope)
+    hor = Horizontal(scope, AV)
     
     a = hor.position
     assert(a == 50)
