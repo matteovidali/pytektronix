@@ -97,6 +97,7 @@ class Trigger(CommandGroupObject):
         trig_source = self.source 
         trig_source_type = trig_source.translate(str.maketrans('','',digits))
         accepted_values = {"MDO3024": ["aux", "ch", "d"],
+                           "MSO54": ["aux", "ch", "d"], 
                            "DEBUG":   ["ch"]}
         if trig_source_type not in accepted_values[self.instr.model]:
             return "Trigger level cannot be ascertained for sources other that CH<i>, D<i>, or AUX"
@@ -108,6 +109,7 @@ class Trigger(CommandGroupObject):
         trig_source = self.source 
         trig_source_type = trig_source.translate(str.maketrans('','',digits))
         accepted_source_values = {"MDO3024": ["aux", "ch", "d"],
+                                  "MSO54": ["aux", "ch", "ch_d"], 
                                   "DEBUG":   ["ch"]}
         if trig_source_type not in accepted_source_values[self.instr.model]:
             return "Trigger level cannot be ascertained for sources other that CH<i>, D<i>, or AUX"
