@@ -1,6 +1,5 @@
 import sys
-sys.path.append("src/pytektronix")
-from scopes import MDO3024 
+from pytektronix.scopes import MDO3024 
 import pytest
 from time import sleep
 

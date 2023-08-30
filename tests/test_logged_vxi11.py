@@ -1,4 +1,4 @@
-from scopes import LoggedVXI11
+from pytektronix.scopes import LoggedVXI11
 from pathlib import Path
 import os
 

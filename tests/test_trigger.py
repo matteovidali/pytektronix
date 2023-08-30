@@ -1,9 +1,8 @@
 import sys
-sys.path.append("src/pytektronix/")
 
-from scopes import LoggedVISA
-from command_group_objects import Trigger
-from pytektronix_base_classes import ScopeStateError
+from pytektronix.scopes import LoggedVISA
+from pytektronix.command_group_objects import Trigger
+from pytektronix.pytektronix_base_classes import ScopeStateError
 import pytest
 from time import sleep
 

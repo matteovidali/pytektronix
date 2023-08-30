@@ -1,6 +1,5 @@
 import sys
-sys.path.append('src/pytektronix')
-from scopes import LoggedVISA, Horizontal, ScopeStateError
+from pytektronix.scopes import LoggedVISA, Horizontal, ScopeStateError
 import pytest
 
 SCOPE = None
