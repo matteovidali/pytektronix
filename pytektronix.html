@@ -606,9 +606,9 @@ channels, as well as waveform capture details.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vxi11</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.scopes.MDO3024.__init__" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
-<li><p>str resource_id: The VISA name or the VXI11 ip address of the scope. Leave blank if unknow, and a connection wizard will be run.</p></li>
-<li><p>bool vxi11: default False, set to true if connecting the the scope via VXI11 not VISA</p></li>
-<li><p>bool strict: default True, set to False if errors should be soft and not result in a raised exception.</p></li>
+<li><p>resource_id: The VISA name or the VXI11 ip address of the scope. Leave blank if unknow, and a connection wizard will be run.</p></li>
+<li><p>vxi11: default False, set to true if connecting the the scope via VXI11 not VISA</p></li>
+<li><p>strict: default True, set to False if errors should be soft and not result in a raised exception.</p></li>
 </ul>
 </dd>
 </dl>
@@ -620,9 +620,7 @@ channels, as well as waveform capture details.</p>
 <dd><p>Internal function used to compute the accepted values of the 
 channel offset depending on probe resistance and the vertical scale.</p>
 <dl class="simple">
-<dt>Parameters:</dt><dd><ul class="simple">
-<li><p>channel Channel: which channel to check the probe resistance of</p></li>
-</ul>
+<dt>Parameters:</dt><dd><p>Channel: which channel to check the probe resistance of</p>
 </dd>
 <dt>Returns:</dt><dd><p>Tuple: (accepted values)</p>
 </dd>
@@ -641,6 +639,12 @@ panel of the oscilloscope would do</p>
 <span class="sig-name descname"><span class="pre">get_channel_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.get_channel_info" title="Permalink to this definition"></a></dt>
 <dd><p>A getter to retreive and show all settings currently set for the Channel.
 returns a string of all info.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>channel: a channel label (ch&lt;x&gt;, d&lt;x&gt;) of which to get info from</p>
+</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -648,6 +652,12 @@ returns a string of all info.</p>
 <span class="sig-name descname"><span class="pre">get_horizontal_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.get_horizontal_info" title="Permalink to this definition"></a></dt>
 <dd><p>A getter to retreive and show all settings currently set for the Horizontal.
 returns a string of all info.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>setting: No Effect as of now… #TODO - get individual settings</p>
+</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -655,6 +665,12 @@ returns a string of all info.</p>
 <span class="sig-name descname"><span class="pre">get_trigger_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.get_trigger_info" title="Permalink to this definition"></a></dt>
 <dd><p>A getter to retreive and show all settings currently set for the trigger.
 returns a string of all info.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Parameters:</dt><dd><p>setting: No Effect as of now… #TODO - get individual settings</p>
+</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -663,7 +679,7 @@ returns a string of all info.</p>
 <dd><p>A scope method to caputure data from the scope returned as a bytearray, list, or np.ndarray.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
-<li><p>str format: Specify return type as bytearray (‘default’), list (‘list’) or numpy ndarray (‘np_array’)</p></li>
+<li><p>format: Specify return type as bytearray (‘default’), list (‘list’) or numpy ndarray (‘np_array’)</p></li>
 </ul>
 </dd>
 </dl>
@@ -682,11 +698,11 @@ returns a string of all info.</p>
 <dd><p>A scope method to set all channel attributes desired.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
-<li><p>str channel: channel for which settings are being changed</p></li>
-<li><p>float position: horizontal position of channel referenced to centerline: between (-8,8)</p></li>
-<li><p>float offset: vertical offset of channel referenced to centeriline (any)</p></li>
-<li><p>float scale: vertical scale of the desired channel</p></li>
-<li><p>str coupling: specify coupling of a given channel (AC, DC, DCREJECT)</p></li>
+<li><p>channel: channel for which settings are being changed</p></li>
+<li><p>position: horizontal position of channel referenced to centerline: between (-8,8)</p></li>
+<li><p>offset: vertical offset of channel referenced to centeriline (any)</p></li>
+<li><p>scale: vertical scale of the desired channel</p></li>
+<li><p>coupling: specify coupling of a given channel (AC, DC, DCREJECT)</p></li>
 </ul>
 </dd>
 </dl>
@@ -704,8 +720,8 @@ returns a string of all info.</p>
 <dd><p>A scope method to set all horizontal attributes desired.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
-<li><p>float scale: desired horizontal scale in Seconds, can be anything between (4e-10, 1000)</p></li>
-<li><p>float position: horizontal positioning expressed as a percentage of the screen (0, 100)</p></li>
+<li><p>scale: desired horizontal scale in Seconds, can be anything between (4e-10, 1000)</p></li>
+<li><p>position: horizontal positioning expressed as a percentage of the screen (0, 100)</p></li>
 </ul>
 </dd>
 </dl>
@@ -717,10 +733,10 @@ returns a string of all info.</p>
 <dd><p>A scope method to set all trigger attributes desired.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
-<li><p>str mode: desired trigger mode (normal, auto)</p></li>
-<li><p>str trig_type: desired trigger type (edge, logic, pulse, bus, video)</p></li>
-<li><p>str source: trigger source channel, any digital or logic channel allowed (ch&lt;x&gt; or d&lt;x&gt;)</p></li>
-<li><p>str level: desired level of the trigger in Volts, or (ttl, ecl)</p></li>
+<li><p>mode: desired trigger mode (normal, auto)</p></li>
+<li><p>trig_type: desired trigger type (edge, logic, pulse, bus, video)</p></li>
+<li><p>source: trigger source channel, any digital or logic channel allowed (ch&lt;x&gt; or d&lt;x&gt;)</p></li>
+<li><p>level: desired level of the trigger in Volts, or (ttl, ecl)</p></li>
 </ul>
 </dd>
 </dl>
@@ -732,11 +748,11 @@ returns a string of all info.</p>
 <dd><p>A scope method to set all waveform data related attributes.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><ul class="simple">
-<li><p>str data_source: source of waveform data (ch&lt;x&gt;, d&lt;x&gt;, ref&lt;x&gt;, math, rf_*)</p></li>
-<li><p>str data_encoding: data output encoding (ascii, fastest, ribinary, rpbinary, sribinary srpbinary, fpbinary, sfpbinary)</p></li>
-<li><p>int data_width: width of output data in bytes (1,2,4,8 - encoding dependant)</p></li>
-<li><p>int data_start: at which sample to start the data capture (1 to 2e6)</p></li>
-<li><p>int data_stop: at which sample to stop the data capture (1 to 2e6)</p></li>
+<li><p>data_source: source of waveform data (ch&lt;x&gt;, d&lt;x&gt;, ref&lt;x&gt;, math, rf_*)</p></li>
+<li><p>data_encoding: data output encoding (ascii, fastest, ribinary, rpbinary, sribinary srpbinary, fpbinary, sfpbinary)</p></li>
+<li><p>data_width: width of output data in bytes (1,2,4,8 - encoding dependant)</p></li>
+<li><p>data_start: at which sample to start the data capture (1 to 2e6)</p></li>
+<li><p>data_stop: at which sample to stop the data capture (1 to 2e6)</p></li>
 </ul>
 </dd>
 </dl>
