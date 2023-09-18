@@ -28,6 +28,7 @@ autodoc_mock_imports = [
     "pytest", 
     "pyVISA-py",
     "pyVISA",
+    "pyvisa",
     "typing_extensions"
 ]
 
