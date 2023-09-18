@@ -10,7 +10,7 @@ addopts = [
 
 [project]
 name = "pytektronix"
-version = "0.1.0"
+version = "1.0.0"
 authors = [
   { name="Matteo Vidali", email="mmvidali@gmail.com" },
   { name="Barrett Tieman", email="mmvidali@gmail.com" }, 
