@@ -46,10 +46,31 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">pytektronix</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pytektronix package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pytektronix-command-group-objects-module">pytektronix.command_group_objects module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pytektronix-pytektronix-base-classes-module">pytektronix.pytektronix_base_classes module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pytektronix-scopes-module">pytektronix.scopes module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pytektronix.command_group_objects">pytektronix.command_group_objects module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.command_group_objects.Channel"><code class="docutils literal notranslate"><span class="pre">Channel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.command_group_objects.Horizontal"><code class="docutils literal notranslate"><span class="pre">Horizontal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.command_group_objects.TrigStrings"><code class="docutils literal notranslate"><span class="pre">TrigStrings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.command_group_objects.Trigger"><code class="docutils literal notranslate"><span class="pre">Trigger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.command_group_objects.WFStrings"><code class="docutils literal notranslate"><span class="pre">WFStrings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.command_group_objects.WaveformTransfer"><code class="docutils literal notranslate"><span class="pre">WaveformTransfer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pytektronix.pytektronix_base_classes">pytektronix.pytektronix_base_classes module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.CommandGroupObject"><code class="docutils literal notranslate"><span class="pre">CommandGroupObject</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.DebugScope"><code class="docutils literal notranslate"><span class="pre">DebugScope</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.LoggedVISA"><code class="docutils literal notranslate"><span class="pre">LoggedVISA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.LoggedVXI11"><code class="docutils literal notranslate"><span class="pre">LoggedVXI11</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope"><code class="docutils literal notranslate"><span class="pre">Scope</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.ScopeNotSupportedError"><code class="docutils literal notranslate"><span class="pre">ScopeNotSupportedError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.ScopeStateError"><code class="docutils literal notranslate"><span class="pre">ScopeStateError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pytektronix.scopes">pytektronix.scopes module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.scopes.MDO3024"><code class="docutils literal notranslate"><span class="pre">MDO3024</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytektronix.scopes.MSO54"><code class="docutils literal notranslate"><span class="pre">MSO54</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pytektronix">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -86,17 +107,723 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
-<section id="pytektronix-command-group-objects-module">
-<h2>pytektronix.command_group_objects module<a class="headerlink" href="#pytektronix-command-group-objects-module" title="Permalink to this heading"></a></h2>
+<section id="module-pytektronix.command_group_objects">
+<span id="pytektronix-command-group-objects-module"></span><h2>pytektronix.command_group_objects module<a class="headerlink" href="#module-pytektronix.command_group_objects" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Channel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.command_group_objects.</span></span><span class="sig-name descname"><span class="pre">Channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chan_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><span class="pre">Scope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">accepted_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_digital</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ch'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.Channel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pytektronix.pytektronix_base_classes.CommandGroupObject" title="pytektronix.pytektronix_base_classes.CommandGroupObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandGroupObject</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Channel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chan_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><span class="pre">Scope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">accepted_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_digital</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ch'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.Channel.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Channel.accepted_values">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accepted_values</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Channel.accepted_values" title="Permalink to this definition"></a></dt>
+<dd><p>The accepted_values property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Channel.coupling">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coupling</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Channel.coupling" title="Permalink to this definition"></a></dt>
+<dd><p>The coupling property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Channel.offset">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">offset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#pytektronix.command_group_objects.Channel.offset" title="Permalink to this definition"></a></dt>
+<dd><p>The offset property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Channel.position">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#pytektronix.command_group_objects.Channel.position" title="Permalink to this definition"></a></dt>
+<dd><p>The position property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Channel.probe_resistance">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">probe_resistance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#pytektronix.command_group_objects.Channel.probe_resistance" title="Permalink to this definition"></a></dt>
+<dd><p>Get channel PROBE RESISTANCE in OHMS</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Channel.scale">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#pytektronix.command_group_objects.Channel.scale" title="Permalink to this definition"></a></dt>
+<dd><p>The scale property.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Horizontal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.command_group_objects.</span></span><span class="sig-name descname"><span class="pre">Horizontal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><span class="pre">Scope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">accepted_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'horizontal'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.Horizontal" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pytektronix.pytektronix_base_classes.CommandGroupObject" title="pytektronix.pytektronix_base_classes.CommandGroupObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandGroupObject</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Horizontal.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><span class="pre">Scope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">accepted_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'horizontal'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.Horizontal.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Horizontal.accepted_values">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accepted_values</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Horizontal.accepted_values" title="Permalink to this definition"></a></dt>
+<dd><p>The accepted_values property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Horizontal.position">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#pytektronix.command_group_objects.Horizontal.position" title="Permalink to this definition"></a></dt>
+<dd><p>Gets current horizontal POSITION</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Horizontal.sample_rate">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sample_rate</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Horizontal.sample_rate" title="Permalink to this definition"></a></dt>
+<dd><p>Get the current horizontal SAMPLERATE</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Horizontal.scale">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Horizontal.scale" title="Permalink to this definition"></a></dt>
+<dd><p>Get the current horizontal SCALE [S]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.command_group_objects.</span></span><span class="sig-name descname"><span class="pre">TrigStrings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiValueEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.ARMED">
+<span class="sig-name descname"><span class="pre">ARMED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('armed',</span> <span class="pre">'arm')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.ARMED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.AUTO">
+<span class="sig-name descname"><span class="pre">AUTO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'auto'</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.AUTO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.BUS">
+<span class="sig-name descname"><span class="pre">BUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'bus'</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.BUS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.EDGE">
+<span class="sig-name descname"><span class="pre">EDGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('edge',</span> <span class="pre">'edg')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.EDGE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.LOGIC">
+<span class="sig-name descname"><span class="pre">LOGIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('logic',</span> <span class="pre">'logi')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.LOGIC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.NORMAL">
+<span class="sig-name descname"><span class="pre">NORMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('normal',</span> <span class="pre">'norm')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.NORMAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.PULSE">
+<span class="sig-name descname"><span class="pre">PULSE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('pulse',</span> <span class="pre">'puls')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.PULSE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.READY">
+<span class="sig-name descname"><span class="pre">READY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('ready',</span> <span class="pre">'rea')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.READY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.SAVE">
+<span class="sig-name descname"><span class="pre">SAVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('save',</span> <span class="pre">'sav')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.SAVE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.TRIGGERED">
+<span class="sig-name descname"><span class="pre">TRIGGERED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('triggered',</span> <span class="pre">'trig')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.TRIGGERED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.TrigStrings.VIDEO">
+<span class="sig-name descname"><span class="pre">VIDEO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('video',</span> <span class="pre">'vid')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.TrigStrings.VIDEO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.command_group_objects.</span></span><span class="sig-name descname"><span class="pre">Trigger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><span class="pre">Scope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">accepted_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'trigger:a'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pytektronix.pytektronix_base_classes.CommandGroupObject" title="pytektronix.pytektronix_base_classes.CommandGroupObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandGroupObject</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><span class="pre">Scope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">accepted_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'trigger:a'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.accepted_values">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accepted_values</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.accepted_values" title="Permalink to this definition"></a></dt>
+<dd><p>The accepted_values property.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.autoset">
+<span class="sig-name descname"><span class="pre">autoset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.autoset" title="Permalink to this definition"></a></dt>
+<dd><p>Automatically set trigger level to 50% of range</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.force">
+<span class="sig-name descname"><span class="pre">force</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.force" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if the scope is ready, and then forces a trigger event</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.level">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.level" title="Permalink to this definition"></a></dt>
+<dd><p>Get current trigger LEVEL</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.mode">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.mode" title="Permalink to this definition"></a></dt>
+<dd><p>Get current trigger MODE</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.source">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.source" title="Permalink to this definition"></a></dt>
+<dd><p>Get current trigger SOURCE</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.state">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.state" title="Permalink to this definition"></a></dt>
+<dd><p>Get current trigger STATE</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.Trigger.trig_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trig_type</span></span><a class="headerlink" href="#pytektronix.command_group_objects.Trigger.trig_type" title="Permalink to this definition"></a></dt>
+<dd><p>Get current trigger TYPE</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.command_group_objects.</span></span><span class="sig-name descname"><span class="pre">WFStrings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiValueEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings.ASCII">
+<span class="sig-name descname"><span class="pre">ASCII</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('ascii',</span> <span class="pre">'asc')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings.ASCII" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings.FASTEST">
+<span class="sig-name descname"><span class="pre">FASTEST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fastest'</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings.FASTEST" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings.FPBINARY">
+<span class="sig-name descname"><span class="pre">FPBINARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('fpbinary',</span> <span class="pre">'fpb')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings.FPBINARY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings.RIBINARY">
+<span class="sig-name descname"><span class="pre">RIBINARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('ribinary',</span> <span class="pre">'rib')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings.RIBINARY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings.RPBINARY">
+<span class="sig-name descname"><span class="pre">RPBINARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('rpbinary',</span> <span class="pre">'rpb')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings.RPBINARY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings.SFPBINARY">
+<span class="sig-name descname"><span class="pre">SFPBINARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('sfpbinary',</span> <span class="pre">'sfp')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings.SFPBINARY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings.SRIBINARY">
+<span class="sig-name descname"><span class="pre">SRIBINARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('sribinary',</span> <span class="pre">'sri')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings.SRIBINARY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WFStrings.SRPBINARY">
+<span class="sig-name descname"><span class="pre">SRPBINARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('srpbinary',</span> <span class="pre">'srp')</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WFStrings.SRPBINARY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.command_group_objects.</span></span><span class="sig-name descname"><span class="pre">WaveformTransfer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><span class="pre">Scope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">accepted_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pytektronix.pytektronix_base_classes.CommandGroupObject" title="pytektronix.pytektronix_base_classes.CommandGroupObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">CommandGroupObject</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><span class="pre">Scope</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">accepted_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.accepted_values">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accepted_values</span></span><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.accepted_values" title="Permalink to this definition"></a></dt>
+<dd><p>The accepted_values property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.data_encoding">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_encoding</span></span><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.data_encoding" title="Permalink to this definition"></a></dt>
+<dd><p>The data_encoding property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.data_source">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_source</span></span><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.data_source" title="Permalink to this definition"></a></dt>
+<dd><p>The data_source property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.data_start">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_start</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.data_start" title="Permalink to this definition"></a></dt>
+<dd><p>The data_start property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.data_stop">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_stop</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.data_stop" title="Permalink to this definition"></a></dt>
+<dd><p>The data_stop property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.data_width">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_width</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.data_width" title="Permalink to this definition"></a></dt>
+<dd><p>The data_width property.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytearray</span></span></span><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.get_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.get_data_preamble">
+<span class="sig-name descname"><span class="pre">get_data_preamble</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.get_data_preamble" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.initialize_data">
+<span class="sig-name descname"><span class="pre">initialize_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'CH1'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.initialize_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.command_group_objects.WaveformTransfer.num_points">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_points</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#pytektronix.command_group_objects.WaveformTransfer.num_points" title="Permalink to this definition"></a></dt>
+<dd><p>The num_points property.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="pytektronix-pytektronix-base-classes-module">
-<h2>pytektronix.pytektronix_base_classes module<a class="headerlink" href="#pytektronix-pytektronix-base-classes-module" title="Permalink to this heading"></a></h2>
+<section id="module-pytektronix.pytektronix_base_classes">
+<span id="pytektronix-pytektronix-base-classes-module"></span><h2>pytektronix.pytektronix_base_classes module<a class="headerlink" href="#module-pytektronix.pytektronix_base_classes" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.CommandGroupObject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.pytektronix_base_classes.</span></span><span class="sig-name descname"><span class="pre">CommandGroupObject</span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.CommandGroupObject" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A command group meta object which all command group classes can inherit.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.CommandGroupObject.accepted_values">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">accepted_values</span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.CommandGroupObject.accepted_values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.CommandGroupObject.supported_models">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">supported_models</span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.CommandGroupObject.supported_models" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.DebugScope">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.pytektronix_base_classes.</span></span><span class="sig-name descname"><span class="pre">DebugScope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.DebugScope" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scope</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.DebugScope.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.DebugScope.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.DebugScope.ask">
+<span class="sig-name descname"><span class="pre">ask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.DebugScope.ask" title="Permalink to this definition"></a></dt>
+<dd><p>An ask method to query the scope which expects to return a string            (lowercase) must be included in any scope class</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.DebugScope.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.DebugScope.write" title="Permalink to this definition"></a></dt>
+<dd><p>A method to send a command to the scope without waiting for a 
+response</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVISA">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.pytektronix_base_classes.</span></span><span class="sig-name descname"><span class="pre">LoggedVISA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVISA" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scope</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVISA.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVISA.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVISA.ask">
+<span class="sig-name descname"><span class="pre">ask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVISA.ask" title="Permalink to this definition"></a></dt>
+<dd><p>Sends a query string to the oscilloscope</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVISA.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVISA.close" title="Permalink to this definition"></a></dt>
+<dd><p>Closes the visa connection</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVISA.log">
+<span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVISA.log" title="Permalink to this definition"></a></dt>
+<dd><p>Logs the commands sent to the scope, and notes if there was an error</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVISA.read_raw">
+<span class="sig-name descname"><span class="pre">read_raw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVISA.read_raw" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVISA.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVISA.write" title="Permalink to this definition"></a></dt>
+<dd><p>Writes a command string to the oscilloscope</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVXI11">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.pytektronix_base_classes.</span></span><span class="sig-name descname"><span class="pre">LoggedVXI11</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVXI11" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Instrument</span></code>, <a class="reference internal" href="#pytektronix.pytektronix_base_classes.Scope" title="pytektronix.pytektronix_base_classes.Scope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Scope</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVXI11.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">IP</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVXI11.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVXI11.ask">
+<span class="sig-name descname"><span class="pre">ask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVXI11.ask" title="Permalink to this definition"></a></dt>
+<dd><p>An ask method to query the scope which expects to return a string            (lowercase) must be included in any scope class</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVXI11.make_init">
+<span class="sig-name descname"><span class="pre">make_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVXI11.make_init" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.LoggedVXI11.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.LoggedVXI11.write" title="Permalink to this definition"></a></dt>
+<dd><p>A method to send a command to the scope without waiting for a 
+response</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.Scope">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.pytektronix_base_classes.</span></span><span class="sig-name descname"><span class="pre">Scope</span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.Scope" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An abstract metaclass for any type of scope communication 
+(VISA, VXI11,  DEBUG, etc.)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.Scope.ask">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ask</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.Scope.ask" title="Permalink to this definition"></a></dt>
+<dd><p>An ask method to query the scope which expects to return a string            (lowercase) must be included in any scope class</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.Scope.write">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.Scope.write" title="Permalink to this definition"></a></dt>
+<dd><p>A method to send a command to the scope without waiting for a 
+response</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.ScopeNotSupportedError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.pytektronix_base_classes.</span></span><span class="sig-name descname"><span class="pre">ScopeNotSupportedError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'NO</span> <span class="pre">SCOPE</span> <span class="pre">SUPPORT'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.ScopeNotSupportedError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>An Error type to demonstrate when a setting has no scope support</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.ScopeNotSupportedError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'NO</span> <span class="pre">SCOPE</span> <span class="pre">SUPPORT'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.ScopeNotSupportedError.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.ScopeStateError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.pytektronix_base_classes.</span></span><span class="sig-name descname"><span class="pre">ScopeStateError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'INVALID</span> <span class="pre">SCOPE</span> <span class="pre">STATE'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.ScopeStateError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>An Error type for when the scopes current state is not correct for a 
+given command. 
+Examples include when forcing a trigger, the scope trigger
+state must be ‘READY’, and if the scopes are in ‘strict’ mode, and a
+trigger force is invoked, pytektronix will raise a ScopeStateError.
+If the ‘strict’ mode is disabled with (…strict=False) optional, then
+a simple warning will be printed instead, and the ‘force’ command will
+not be executed.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.pytektronix_base_classes.ScopeStateError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'INVALID</span> <span class="pre">SCOPE</span> <span class="pre">STATE'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.pytektronix_base_classes.ScopeStateError.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="pytektronix-scopes-module">
-<h2>pytektronix.scopes module<a class="headerlink" href="#pytektronix-scopes-module" title="Permalink to this heading"></a></h2>
+<section id="module-pytektronix.scopes">
+<span id="pytektronix-scopes-module"></span><h2>pytektronix.scopes module<a class="headerlink" href="#module-pytektronix.scopes" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.scopes.</span></span><span class="sig-name descname"><span class="pre">MDO3024</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vxi11</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.scopes.MDO3024" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The MDO3024 class is designed to control the Tektronix MDO3024 and perhaps other 3000
+Series tektronix oscilloscopes. This scope encapsulates most of the main requirements for the 
+oscilloscope, including Triggering (force and edge &amp; more), horizontal controls, analog and digital
+channels, as well as waveform capture details.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vxi11</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.scopes.MDO3024.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>str resource_id: The VISA name or the VXI11 ip address of the scope. Leave blank if unknow, and a connection wizard will be run.</p></li>
+<li><p>bool vxi11: default False, set to true if connecting the the scope via VXI11 not VISA</p></li>
+<li><p>bool strict: default True, set to False if errors should be soft and not result in a raised exception.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.compute_channel_offset_range">
+<span class="sig-name descname"><span class="pre">compute_channel_offset_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.command_group_objects.Channel" title="pytektronix.command_group_objects.Channel"><span class="pre">Channel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.compute_channel_offset_range" title="Permalink to this definition"></a></dt>
+<dd><p>Internal function used to compute the accepted values of the 
+channel offset depending on probe resistance and the vertical scale.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>channel Channel: which channel to check the probe resistance of</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>Tuple: (accepted values)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.default_setup">
+<span class="sig-name descname"><span class="pre">default_setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.scopes.MDO3024.default_setup" title="Permalink to this definition"></a></dt>
+<dd><p>Does exactly what pressing the ‘Default Setup’ or ‘Auto Setup’ button on the front
+panel of the oscilloscope would do</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.get_channel_info">
+<span class="sig-name descname"><span class="pre">get_channel_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.get_channel_info" title="Permalink to this definition"></a></dt>
+<dd><p>A getter to retreive and show all settings currently set for the Channel.
+returns a string of all info.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.get_horizontal_info">
+<span class="sig-name descname"><span class="pre">get_horizontal_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.get_horizontal_info" title="Permalink to this definition"></a></dt>
+<dd><p>A getter to retreive and show all settings currently set for the Horizontal.
+returns a string of all info.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.get_trigger_info">
+<span class="sig-name descname"><span class="pre">get_trigger_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.get_trigger_info" title="Permalink to this definition"></a></dt>
+<dd><p>A getter to retreive and show all settings currently set for the trigger.
+returns a string of all info.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.get_waveform">
+<span class="sig-name descname"><span class="pre">get_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytearray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.get_waveform" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to caputure data from the scope returned as a bytearray, list, or np.ndarray.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>str format: Specify return type as bytearray (‘default’), list (‘list’) or numpy ndarray (‘np_array’)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.get_waveform_info">
+<span class="sig-name descname"><span class="pre">get_waveform_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.get_waveform_info" title="Permalink to this definition"></a></dt>
+<dd><p>A getter to retreive and show all settings currently set for the waveform capture.
+returns a string of all info.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.set_channel">
+<span class="sig-name descname"><span class="pre">set_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coupling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.set_channel" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all channel attributes desired.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>str channel: channel for which settings are being changed</p></li>
+<li><p>float position: horizontal position of channel referenced to centerline: between (-8,8)</p></li>
+<li><p>float offset: vertical offset of channel referenced to centeriline (any)</p></li>
+<li><p>float scale: vertical scale of the desired channel</p></li>
+<li><p>str coupling: specify coupling of a given channel (AC, DC, DCREJECT)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.set_digital">
+<span class="sig-name descname"><span class="pre">set_digital</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.set_digital" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all digital channel attributes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.set_horizontal">
+<span class="sig-name descname"><span class="pre">set_horizontal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.set_horizontal" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all horizontal attributes desired.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>float scale: desired horizontal scale in Seconds, can be anything between (4e-10, 1000)</p></li>
+<li><p>float position: horizontal positioning expressed as a percentage of the screen (0, 100)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.set_trigger">
+<span class="sig-name descname"><span class="pre">set_trigger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trig_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.set_trigger" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all trigger attributes desired.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>str mode: desired trigger mode (normal, auto)</p></li>
+<li><p>str trig_type: desired trigger type (edge, logic, pulse, bus, video)</p></li>
+<li><p>str source: trigger source channel, any digital or logic channel allowed (ch&lt;x&gt; or d&lt;x&gt;)</p></li>
+<li><p>str level: desired level of the trigger in Volts, or (ttl, ecl)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MDO3024.set_waveform">
+<span class="sig-name descname"><span class="pre">set_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_stop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MDO3024.set_waveform" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all waveform data related attributes.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>str data_source: source of waveform data (ch&lt;x&gt;, d&lt;x&gt;, ref&lt;x&gt;, math, rf_*)</p></li>
+<li><p>str data_encoding: data output encoding (ascii, fastest, ribinary, rpbinary, sribinary srpbinary, fpbinary, sfpbinary)</p></li>
+<li><p>int data_width: width of output data in bytes (1,2,4,8 - encoding dependant)</p></li>
+<li><p>int data_start: at which sample to start the data capture (1 to 2e6)</p></li>
+<li><p>int data_stop: at which sample to stop the data capture (1 to 2e6)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytektronix.scopes.</span></span><span class="sig-name descname"><span class="pre">MSO54</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vxi11</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.scopes.MSO54" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vxi11</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.scopes.MSO54.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.compute_channel_offset_range">
+<span class="sig-name descname"><span class="pre">compute_channel_offset_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytektronix.command_group_objects.Channel" title="pytektronix.command_group_objects.Channel"><span class="pre">Channel</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.compute_channel_offset_range" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.default_setup">
+<span class="sig-name descname"><span class="pre">default_setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytektronix.scopes.MSO54.default_setup" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.get_channel_info">
+<span class="sig-name descname"><span class="pre">get_channel_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.get_channel_info" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.get_horizontal_info">
+<span class="sig-name descname"><span class="pre">get_horizontal_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.get_horizontal_info" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.get_trigger_info">
+<span class="sig-name descname"><span class="pre">get_trigger_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.get_trigger_info" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.get_waveform">
+<span class="sig-name descname"><span class="pre">get_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytearray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.get_waveform" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to caputure data from the scope</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.get_waveform_info">
+<span class="sig-name descname"><span class="pre">get_waveform_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.get_waveform_info" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.set_channel">
+<span class="sig-name descname"><span class="pre">set_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coupling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.set_channel" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all channel attributes desired</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.set_digital">
+<span class="sig-name descname"><span class="pre">set_digital</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.set_digital" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all digital channel attributes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.set_horizontal">
+<span class="sig-name descname"><span class="pre">set_horizontal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.set_horizontal" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all horizontal attributes desired</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.set_trigger">
+<span class="sig-name descname"><span class="pre">set_trigger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trigger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'a'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trig_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.set_trigger" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all trigger attributes desired</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytektronix.scopes.MSO54.set_waveform">
+<span class="sig-name descname"><span class="pre">set_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_encoding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_stop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytektronix.scopes.MSO54.set_waveform" title="Permalink to this definition"></a></dt>
+<dd><p>A scope method to set all waveform data related attributes</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
+<section id="module-pytektronix">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pytektronix" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 
