@@ -9,12 +9,111 @@ from pytektronix.command_group_objects import Trigger, Channel, Horizontal, Wave
 
 # TODO: FIXME
 class MDO3024:
-    def __init__(self, resource_id: str=None, vxi11: bool = False, strict: bool = True):
-        """The MDO3024 class is designed to control the Tektronix MDO3024 and perhaps other 3000
-        Series tektronix oscilloscopes. This scope encapsulates most of the main requirements for the 
-        oscilloscope, including Triggering (force and edge & more), horizontal controls, analog and digital
-        channels, as well as waveform capture details.
+    """The MDO3024 class is designed to control the Tektronix MDO3024 and perhaps other 3000
+    Series tektronix oscilloscopes. This scope encapsulates most of the main requirements for the 
+    oscilloscope, including Triggering (force and edge & more), horizontal controls, analog and digital
+    channels, as well as waveform capture details.
 
+    -----------
+    Attributes:
+    -----------
+        Format:
+            [name] <[Type]>: Description
+
+        instr <Scope>: The underlying instrument communication layer. See 'pytektronix_base_classes'.
+
+        trigger_accpeted_values <Dict[str:list]>: A dictionary of accepted values for all trigger settings.
+        
+        trigger <Trigger>: The trigger CommandGroupObject which will keep control over the trigger.
+
+        horizontal_accepted_values <Dict[str:list]>: A dictionary of accepted values for horizontal settings.
+
+        horizontal <Horizontal>: The horizontal CGO which controls horizontal settings.
+
+        anlg_chan_accepted_values <Dict[str:list]>: Dictionary of accepted values for anlg channels.
+
+        num_anlg_chans <int>: number of analog channels
+
+        num_digi_chans <int>: number of digital channels
+
+        ch_dict <Dict[str:Channel]: Dictionary of all channels (analog and digital) and their string reps
+
+        waveform_accepted_values <Dict[str:list]>: Dictionary of waveform accepted values
+
+        waveform <WaveformTransfer>: Waveform transfer CGO responsible for housing all capture info.
+
+        data_output_type <str>: #TODO: NotImplemented - set type for waverform output
+
+        allowed_data_output_types: #TODO: NotImplemented - allowed types for waveform outputs
+
+        
+    --------
+    Methods:
+    --------
+        Format:
+            [Signature]->[Return Type]:
+                Description
+
+        make(None) -> str:
+            Queries the oscilloscope for its MAKE information
+
+        model(None) -> str:
+            Queries the oscilloscope for its MODEL information
+        
+        write(command: str) -> None:
+            Writes a command to the oscilloscope, and logs errors to instr.log_str
+
+        ask(q: str) -> str:
+            Writes a command, queries for a response, returns response logs to instr.log_str
+
+        read_raw(None) -> str: 
+            Reads raw info from VISA stream, returns result
+
+        close(None) -> None:
+            Closes the VISA or VXI11 connection
+
+        default_setup(None) -> None:
+            Sends command for scope default setup or autoset
+
+        compute_channel_offset_range(channel: Channel) -> Tuple:
+            Computes allowed channel Offset
+
+        set_trigger(mode: str?, trig_type: str?, source: str?, level: <str, float>?) -> None:
+            Sets the trigger with whichever settings are passed.
+
+        get_trigger_info(setting: str?) -> str:
+            Returns all current trigger settings as a string.
+            #TODO: Will return individual settings when setting parameter is set (NOT IMPLEMENTED)
+
+        set_horizontal(scale: float?, position: float?) -> None:
+            Sets the Horizontal settings with whichever settings are passsed
+
+        get_horizontal_info(setting: str?) -> str:
+            Returns all current horizontal settings as a string.
+            #TODO: Will return individual settings when setting parameter is set (NOT IMPLEMENTED)
+     
+        set_channel(channel: str, position: float?, offset: float?, scale: float? coupling: str?) -> None:
+            Sets all channel related settings with whichever are passed. Must specify a channel to work on.
+
+        get_channel_info(channel: str) -> str:
+            Retrieves channel related information as a string
+
+        set digital(None) -> None:
+            NotImplemented
+
+        set_waveform(data_source: str?, data_encoding: str?, data_width: int?, 
+                     data_start: int?, data_stop: int?) -> None:
+            Sets up the waveform transfer command group object with whichever settings are present.
+
+        get_waveform_info(None) -> str:        
+            Retrives waveform info settings as a string
+
+        get_waveform(format: str?) -> bytearrray | np.ndarray | list:
+            Captures data from triggered waveorm and returns it in the specified types
+    """
+
+    def __init__(self, resource_id: str=None, vxi11: bool = False, strict: bool = True):
+            """
             Parameters:
                 - str resource_id: The VISA name or the VXI11 ip address of the scope. Leave blank if unknow, and a connection wizard will be run.
                 - bool vxi11: default False, set to true if connecting the the scope via VXI11 not VISA 
