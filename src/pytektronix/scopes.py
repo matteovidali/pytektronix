@@ -9,7 +9,19 @@ from pytektronix.command_group_objects import Trigger, Channel, Horizontal, Wave
 
 # TODO: FIXME
 class MDO3024:
+    """The MDO3024 class is designed to control the Tektronix MDO3024 and perhaps other 3000
+    Series tektronix oscilloscopes. This scope encapsulates most of the main requirements for the 
+    oscilloscope, including Triggering (force and edge & more), horizontal controls, analog and digital
+    channels, as well as waveform capture details.
+    """
+
     def __init__(self, resource_id: str=None, vxi11: bool = False, strict: bool = True):
+        """
+            Parameters:
+                - str resource_id: The VISA name or the VXI11 ip address of the scope. Leave blank if unknow, and a connection wizard will be run.
+                - bool vxi11: default False, set to true if connecting the the scope via VXI11 not VISA 
+                - bool strict: default True, set to False if errors should be soft and not result in a raised exception.
+        """
 
         self.instr = LoggedVISA(resource_id=resource_id) if not vxi11 else LoggedVXI11(IP=resource_id)
 
@@ -71,10 +83,24 @@ class MDO3024:
         self.write("HEADER 0")
 
     def default_setup(self):
+        """Does exactly what pressing the 'Default Setup' or 'Auto Setup' button on the front
+        panel of the oscilloscope would do
+        """
+
         self.write("fpanel:press defaultsetup")
         self.write("HEADER 0")
 
     def compute_channel_offset_range(self, channel: Channel) -> Tuple:
+        """ Internal function used to compute the accepted values of the 
+            channel offset depending on probe resistance and the vertical scale. 
+
+            Parameters:
+                - channel Channel: which channel to check the probe resistance of
+
+            Returns:
+                Tuple: (accepted values)
+        """
+
         probe_res = {10e6: 0, 
                      50: 1}[float(self.ch_dict[channel].probe_resistance)]
 
@@ -97,7 +123,15 @@ class MDO3024:
 
     def set_trigger(self, mode: str=None, trig_type: str=None, 
                     source: str=None, level: Union[str, float]=None) -> None:
-        """A scope method to set all trigger attributes desired"""
+        """A scope method to set all trigger attributes desired.
+
+            Parameters:
+                - str mode: desired trigger mode (normal, auto)
+                - str trig_type: desired trigger type (edge, logic, pulse, bus, video)
+                - str source: trigger source channel, any digital or logic channel allowed (ch<x> or d<x>)
+                - str level: desired level of the trigger in Volts, or (ttl, ecl)
+        """
+
         if mode:
             self.trigger.mode = mode 
         if trig_type:
@@ -107,27 +141,50 @@ class MDO3024:
         if level is not None:
             self.trigger.level = level
 
+    #TODO: get individual settings
     def get_trigger_info(self, setting: str=None) -> str:
-        #TODO: get individual settings
+        """A getter to retreive and show all settings currently set for the trigger.
+           returns a string of all info.
+        """
+
         return f"Mode: {self.trigger.mode}\n\
                \rType: {self.trigger.trig_type}\n\
                \rSource: {self.trigger.source}\n\
                \rLevel: {self.trigger.level}"
         
     def set_horizontal(self, scale: float=None, position: float=None) -> None:
-        """A scope method to set all horizontal attributes desired"""
+        """A scope method to set all horizontal attributes desired.
+
+            Parameters:
+                - float scale: desired horizontal scale in Seconds, can be anything between (4e-10, 1000)
+                - float position: horizontal positioning expressed as a percentage of the screen (0, 100)
+        """
+
         if scale is not None:
             self.horizontal.scale = scale
         if position is not None:
             self.horizontal.position = position
 
     def get_horizontal_info(self, setting: str=None) -> str:
+        """A getter to retreive and show all settings currently set for the Horizontal.
+           returns a string of all info.
+        """
+
         return f"Scale: {self.horizontal.scale}\n \
                  \rPosition: {self.horizontal.position}"
 
     def set_channel(self, channel: str, position: float=None, offset: float=None, 
                     scale: float=None, coupling: str=None) -> None:
-        """A scope method to set all channel attributes desired"""
+        """A scope method to set all channel attributes desired.
+
+            Parameters:
+                - str channel: channel for which settings are being changed
+                - float position: horizontal position of channel referenced to centerline: between (-8,8)
+                - float offset: vertical offset of channel referenced to centeriline (any)
+                - float scale: vertical scale of the desired channel
+                - str coupling: specify coupling of a given channel (AC, DC, DCREJECT)
+        """
+
         if channel not in self.ch_dict.keys():
             if self.strict:
                 raise ValueError(f"No Channel '{channel}'. Must be one of {self.ch_dict.keys()}")
@@ -144,6 +201,10 @@ class MDO3024:
             self.ch_dict[channel].coupling = coupling
 
     def get_channel_info(self, channel: str) -> str:
+        """A getter to retreive and show all settings currently set for the Channel.
+           returns a string of all info.
+        """
+
         return f"{channel} Position: {self.ch_dict[channel].position}\n \
                  \r{channel} Offset: {self.ch_dict[channel].offset}\n \
                  \r{channel} scale: {self.ch_dict[channel].scale}\n \
@@ -151,12 +212,22 @@ class MDO3024:
 
     def set_digital(self) -> None:
         """A scope method to set all digital channel attributes"""
+
         raise NotImplementedError
 
     def set_waveform(self, data_source: str=None, data_encoding: str=None, 
                      data_width: int=None, data_start: int=None, 
                      data_stop: int=None) -> None:
-        """A scope method to set all waveform data related attributes"""
+        """A scope method to set all waveform data related attributes.
+
+            Parameters:
+                - str data_source: source of waveform data (ch<x>, d<x>, ref<x>, math, rf_*)
+                - str data_encoding: data output encoding (ascii, fastest, ribinary, rpbinary, sribinary srpbinary, fpbinary, sfpbinary)
+                - int data_width: width of output data in bytes (1,2,4,8 - encoding dependant)
+                - int data_start: at which sample to start the data capture (1 to 2e6)
+                - int data_stop: at which sample to stop the data capture (1 to 2e6)
+        """
+
         if data_source is not None:
             self.waveform.data_source = data_source 
         if data_encoding is not None: 
@@ -169,6 +240,10 @@ class MDO3024:
             self.waveform.data_stop = data_stop
 
     def get_waveform_info(self) -> str:
+        """A getter to retreive and show all settings currently set for the waveform capture.
+           returns a string of all info.
+        """
+
         return f"Data Source: {self.waveform.data_source}\n \
                 \rData Encoding: {self.waveform.data_encoding}\n \
                 \rData Width (bytes): {self.waveform.data_width}\n \
@@ -177,7 +252,11 @@ class MDO3024:
 
     #TODO: Convert dat into useful for
     def get_waveform(self, format: str='default') -> Union[bytearray, np.ndarray, list]:
-        """A scope method to caputure data from the scope"""
+        """A scope method to caputure data from the scope returned as a bytearray, list, or np.ndarray.
+
+            Parameters:
+                - str format: Specify return type as bytearray ('default'), list ('list') or numpy ndarray ('np_array')
+        """
 
         data = self.waveform.get_data()
         dw = {1: np.uint8,

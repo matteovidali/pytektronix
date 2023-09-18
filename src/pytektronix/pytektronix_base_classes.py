@@ -5,23 +5,35 @@ from pathlib import Path
 from abc import ABCMeta, abstractmethod, abstractproperty
 
 class ScopeStateError(Exception):
+    """An Error type for when the scopes current state is not correct for a 
+       given command. 
+       Examples include when forcing a trigger, the scope trigger
+       state must be 'READY', and if the scopes are in 'strict' mode, and a
+       trigger force is invoked, pytektronix will raise a ScopeStateError.
+       If the 'strict' mode is disabled with (...strict=False) optional, then
+       a simple warning will be printed instead, and the 'force' command will
+       not be executed."""
     def __init__(self, message: str="INVALID SCOPE STATE"):
         super().__init__(message)
 
 class ScopeNotSupportedError(Exception):
+    """An Error type to demonstrate when a setting has no scope support"""
     def __init__(self, message: str="NO SCOPE SUPPORT"):
         super().__init__(message)
 
 class Scope(metaclass=ABCMeta):
-    """An abstract metaclass for any type of scope communication (VISA, VXI11 and DEBUG)""" 
+    """An abstract metaclass for any type of scope communication 
+      (VISA, VXI11,  DEBUG, etc.)""" 
     @abstractmethod
     def ask(self) -> str:
-        """A method to query the scope, which expects a return string (lowercase)"""
+        """An ask method to query the scope which expects to return a string \
+           (lowercase) must be included in any scope class"""
         pass
 
     @abstractmethod
     def write(self) -> None:
-        """A method to send a command to the scope without waiting for a response"""
+        """A method to send a command to the scope without waiting for a 
+           response"""
         pass
 
 class CommandGroupObject(metaclass=ABCMeta):
