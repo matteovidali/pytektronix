@@ -29,7 +29,9 @@ autodoc_mock_imports = [
     "pyVISA-py",
     "pyVISA",
     "pyvisa",
-    "typing_extensions"
+    "typing_extensions",
+    "vxi11",
+    "python-vxi11",
 ]
 
 templates_path = ['_templates']
