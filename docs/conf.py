@@ -22,6 +22,15 @@ extensions = [
         "sphinx.ext.autodoc"
 ]
 
+autodoc_mock_imports = [
+    "numpy",
+    "aenum",
+    "pytest", 
+    "pyVISA-py",
+    "pyVISA",
+    "typing_extensions"
+]
+
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
