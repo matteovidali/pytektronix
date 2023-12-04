@@ -40,7 +40,16 @@ class MDO3024:
         self.anlg_chan_accepted_values = {"position": [(-8.0, 8.0)],
                                           "offset": ["any_number"],
                                           "scale": [(1.0e-12, 500.0e12)],
-                                          "coupling": ["ac", "dc", "dcreject"]}
+                                          "coupling": ["ac", "dc", "dcreject"],
+                                          "measurement_type": ["amplitude", "area", "burst",
+                                                               "carea", "cmean", "crms", "delay", "fall",
+                                                               "frequency", "high", "hits", "low", "max",
+                                                               "mean", "median", "min", "nduty", "nedgecount",
+                                                               "novershoot", "npulsecount", "nwidth", "peakhits",
+                                                               "pedgecount", "pduty", "period", "phase", "pk2pk",
+                                                               "povershoot", "ppulsecount", "pwidth", "rise", "rms",
+                                                               "sigma1", "sigma2", "sigma3", "stdev", "tovershoot",
+                                                               "waveforms"] }
         self.num_anlg_chans = 4
         self.num_digi_chans = 16
         self.ch_dict = {}
@@ -154,7 +163,7 @@ class MDO3024:
                \rType: {self.trigger.trig_type}\n\
                \rSource: {self.trigger.source}\n\
                \rLevel: {self.trigger.level}"
-        
+
     def set_horizontal(self, scale: float=None, position: float=None) -> None:
         """A scope method to set all horizontal attributes desired.
 
@@ -218,6 +227,32 @@ class MDO3024:
                  \r{channel} Offset: {self.ch_dict[channel].offset}\n \
                  \r{channel} scale: {self.ch_dict[channel].scale}\n \
                  \r{channel} coupling: {self.ch_dict[channel].scale}"
+
+    def get_channel_measurement(self, channel: str, measure_type: str):
+        """Gets the immediate value of measurement <measure_type> listed below
+           from channel [ch1, ch2, ch3, ch4].
+           - `amplitude`
+           - `area | carea`
+           - `burst`
+           - `cmean | mean | median | stdev`
+           - `crms | rms`
+		   - `delay`
+           - `frequency | period | phase`
+		   - `high | low`
+		   - `hits`
+		   - `min | max`
+		   - `peakhits`
+           - `pedgecount | nedgecount`
+		   - `pduty | nduty`
+		   - `pk2pk`
+           - `povershoot | novershoot | tovershoot`
+		   - `ppulsecount | npulsecount`
+		   - `pwidth | nwidth`
+           - `rise | fall`
+           - `sigma1 | sigma2 | sigma3`
+           - `waveforms`
+            """
+        return self.ch_dict[channel].get_channel_measurement(measure_type)
 
     def set_digital(self) -> None:
         """A scope method to set all digital channel attributes"""

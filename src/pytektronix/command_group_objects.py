@@ -120,7 +120,7 @@ class Horizontal(CommandGroupObject):
     def __init__(self, instr: Scope, accepted_values: dict, strict: bool=True, cn: str="horizontal"):
         self.cn = cn
         self.instr = instr
-        self.strict = strict
+        self.strict = strict    
         self._accepted_values = accepted_values
    
     @property
@@ -230,6 +230,12 @@ class Channel(CommandGroupObject):
         if self.is_digital:
             raise ScopeNotSupportedError("Digital Channels have no position property")
         self._global_setter("coupling", f"{self.cn}:coupling", value)
+
+    def get_measurement(self, desired_measure):
+        self._global_setter("measurement_source", f"measurement:immed:source1 {self.cn}")
+        self._global_setter("measurement_type", "measurement:immed:type", desired_measure)
+        return self.instr.ask(":measurement:immed:value")
+
 
 class WFStrings(MultiValueEnum):
     ASCII = 'ascii', 'asc'
@@ -357,3 +363,64 @@ class WaveformTransfer(CommandGroupObject):
 
         return data
 
+    #class MStrings(MultiValueEnum):
+    #    TEST = 'test', 'test'
+    #
+    #class Measure(CommandGroupObject):
+    #    def __init__(self, instr: Scope, accepted_values: dict,
+    #                 strict: bool=False):
+    #        self.instr = instr
+    #        self.strict = strict
+    #        self._accepted_values = accepted_values
+    #        self.active_measurements = {}
+    #
+    #    @property
+    #    def accepted_values(self):
+    #        return self._accepted_values
+    #
+    #    @accepted_values.setter
+    #    def accepted_values(self, value):
+    #        return self._accepted_values = value
+    #
+    #    @property
+    #    def measurement_parameters(self):
+    #        """The 'Measurement?' property."""
+    #        return self.instr.ask(f"measurement")
+    #
+    #    @property
+    #    def immediate(self):
+    #        """The immediate property."""
+    #        return self.instr.ask(f"measurement:immed")
+    #    
+    #    @property
+    #    def immediate_source(self):
+    #        return self.instr.ask("measurement:immed:source") 
+    #    @immediate_source.setter
+    #    def immediate_source(self, value):
+    #        return _global_setter("immediate_source", "measurement:immed:source", value)
+    #
+    #    @property
+    #    def measurement(self):
+    #        """The measurement property."""
+    #        return self._measurement
+    #    @measurement.setter
+    #    def measurement(self, value):
+    #        self._measurement = value
+    #
+    #    @property
+    #    def measurement_type(self):
+    #        """The measurement_type property."""
+    #        return self._measurement_type
+    #    @measurement_type.setter
+    #    def measurement_type(self, value):
+    #        self._measurement_type = value 
+    #
+    #    def which_measurements_active(self):
+    #        return self.active_measurements.keys()
+    #
+    #    def get_measurement_value(self, measurement:str):
+    #        x = self.active_measurements[measurement]
+    #        return self.instr.ask(f"measurement:meas{x}:value")
+    #    
+    #    def activate_measurement(self, type:str, position: int=None):
+    #        pass
