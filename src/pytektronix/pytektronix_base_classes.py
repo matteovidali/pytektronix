@@ -60,7 +60,9 @@ class CommandGroupObject(metaclass=ABCMeta):
 
         accepted_values = models_accepted_values #models_accepted_values[self.instr.model]
         
-        if type(value) in [float, int]: 
+        if not value:
+            self.instr.write(f"{prop}")
+        elif type(value) in [float, int]: 
             if "any_number" in accepted_values:
                 pass
             elif any(isinstance(x, tuple) for x in accepted_values):
