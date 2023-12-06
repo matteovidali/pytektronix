@@ -252,7 +252,7 @@ class MDO3024:
            - `sigma1 | sigma2 | sigma3`
            - `waveforms`
             """
-        return self.ch_dict[channel].get_channel_measurement(measure_type)
+        return self.ch_dict[channel].get_measurement(measure_type)
 
     def set_digital(self) -> None:
         """A scope method to set all digital channel attributes"""
