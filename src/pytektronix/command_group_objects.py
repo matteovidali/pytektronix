@@ -232,7 +232,7 @@ class Channel(CommandGroupObject):
         self._global_setter("coupling", f"{self.cn}:coupling", value)
 
     def get_measurement(self, desired_measure):
-        self._global_setter("measurement_source", f"measurement:immed:source1 {self.cn}")
+        self._global_setter("measurement_source", f"measurement:immed:source1 {self.cn}", None)
         self._global_setter("measurement_type", "measurement:immed:type", desired_measure)
         return self.instr.ask(":measurement:immed:value")
 
