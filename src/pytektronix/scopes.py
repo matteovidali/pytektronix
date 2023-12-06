@@ -41,6 +41,7 @@ class MDO3024:
                                           "offset": ["any_number"],
                                           "scale": [(1.0e-12, 500.0e12)],
                                           "coupling": ["ac", "dc", "dcreject"],
+                                          "measurement_source": [],
                                           "measurement_type": ["amplitude", "area", "burst",
                                                                "carea", "cmean", "crms", "delay", "fall",
                                                                "frequency", "high", "hits", "low", "max",
